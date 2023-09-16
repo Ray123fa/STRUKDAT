@@ -53,6 +53,6 @@ void main()
 {
 	struct Students student[5];
 
-	input(student, 2);
-	display(student, 2);
+	input(student, 5);
+	display(student, 5);
 }
