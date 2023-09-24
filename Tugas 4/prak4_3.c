@@ -16,7 +16,7 @@ typedef struct Student *studentPtr;
 
 // fungsi berikut akan menambahkan data yang terbaru di belakang
 // contoh node1 = [222212766, "Rayhan"] dan node2 = [222212765, "Faridh"]
-// maka urutan dalam linked list menjadi [[222212766, "Rayhan"], [222212765, "Faridh"]]
+// maka urutan dalam linked list menjadi [222212766, "Rayhan"] -> [222212765, "Faridh"]
 studentPtr addStudent(studentPtr *head, const int nim, const char *nama)
 {
 	studentPtr newStudent;
