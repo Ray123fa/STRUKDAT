@@ -82,6 +82,7 @@ int main()
 			break;
 		default:
 			printf("Pilihan tidak valid!");
+			exit(1);
 		}
 	} while (choice != 4);
 
