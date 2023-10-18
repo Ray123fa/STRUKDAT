@@ -13,7 +13,8 @@
 #include <string.h>
 #include <stdbool.h>
 
-typedef struct node {
+typedef struct node
+{
 	char nama[25];
 	int alp; // alpro
 	int kal; // kalkulus
@@ -23,12 +24,15 @@ typedef struct node {
 #define MAX 5 // maksimal antrian
 Tnode mhs[MAX];
 int front = -1, rear = -1; // inisiasi awal menandakan antrian kosong
-bool errFlag = false; // variabel untuk menandai apakah pesan error sudah ditampilkan, jika sudah tidak ditampilkan berulang kali
+bool errFlag = false;			 // variabel untuk menandai apakah pesan error sudah ditampilkan, jika sudah tidak ditampilkan berulang kali
 
 // Data dimasukkan ke dalam urutan dari nilai alpro terbesar, jika nilai alpro sama akan diurutkan berdasar nilai kalkulus
-void enqueue(char nama[], int alp, int kal) {
-	if (rear == MAX - 1) {
-		if (!errFlag) {
+void enqueue(char nama[], int alp, int kal)
+{
+	if (rear == MAX - 1)
+	{
+		if (!errFlag)
+		{
 			printf("Antrian penuh, maksimal 5!\n\n");
 			errFlag = true;
 		}
@@ -38,7 +42,8 @@ void enqueue(char nama[], int alp, int kal) {
 		front = 0;
 
 	int cursor = rear;
-	while (cursor >= front && (alp > mhs[cursor].alp || (alp == mhs[cursor].alp && kal > mhs[cursor].kal))) {
+	while (cursor >= front && (alp > mhs[cursor].alp || (alp == mhs[cursor].alp && kal > mhs[cursor].kal)))
+	{
 		mhs[cursor + 1] = mhs[cursor];
 		cursor--;
 	}
@@ -49,14 +54,17 @@ void enqueue(char nama[], int alp, int kal) {
 	rear++;
 }
 
-void display() {
+void display()
+{
 	printf("Isi antrian:\n");
-	for (int i = front; i <= rear; i++) {
+	for (int i = front; i <= rear; i++)
+	{
 		printf("Nama: %s, Nilai Alpro: %d, Nilai Kalkulus: %d\n", mhs[i].nama, mhs[i].alp, mhs[i].kal);
 	}
 }
 
-void main() {
+void main()
+{
 	enqueue("Eki", 55, 50);
 	enqueue("Adni", 60, 30);
 	enqueue("Eko", 60, 80);

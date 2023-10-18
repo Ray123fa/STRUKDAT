@@ -13,28 +13,32 @@
 #include <string.h>
 #include <stdbool.h>
 
-typedef struct node {
+typedef struct node
+{
 	char nama[25];
 	int alp; // alpro
 	int kal; // kalkulus
-	struct node* next;
+	struct node *next;
 } Tnode;
-typedef Tnode* ptrnode;
+typedef Tnode *ptrnode;
 
-typedef struct queue {
+typedef struct queue
+{
 	int count;
 	ptrnode front;
 	ptrnode rear;
 	bool errFlag; // variabel untuk menandai apakah pesan error sudah ditampilkan, jika sudah tidak ditampilkan berulang kali
 } Tqueue;
-typedef Tqueue* ptrqueue;
+typedef Tqueue *ptrqueue;
 
-void init(ptrqueue q) {
+void init(ptrqueue q)
+{
 	q->front = q->rear = NULL;
 	q->count = 0;
 }
 
-ptrnode createnode(char nama[], int alp, int kal) {
+ptrnode createnode(char nama[], int alp, int kal)
+{
 	ptrnode newmhs = (ptrnode)malloc(sizeof(Tnode));
 	strcpy(newmhs->nama, nama);
 	newmhs->alp = alp;
@@ -44,69 +48,85 @@ ptrnode createnode(char nama[], int alp, int kal) {
 	return newmhs;
 }
 
-bool isempty(ptrqueue q) {
+bool isempty(ptrqueue q)
+{
 	return (q->count == 0);
 }
 
-bool isfull(ptrqueue q) {
+bool isfull(ptrqueue q)
+{
 	return (q->count == 5); // 5 adalah batas maksimum antrian
 }
 
 // Data dimasukkan ke dalam urutan dari nilai alpro terbesar, jika nilai alpro sama akan diurutkan berdasar nilai kalkulus
-void enqueue(ptrqueue q, char nama[], int alp, int kal) {
+void enqueue(ptrqueue q, char nama[], int alp, int kal)
+{
 	ptrnode newmhs = createnode(nama, alp, kal);
 
-	if (isempty(q)) {
+	if (isempty(q))
+	{
 		q->front = q->rear = newmhs;
 		q->count = 1;
 	}
-	else if (!isfull(q)) {
-		if (alp > q->front->alp || (alp == q->front->alp && kal >= q->front->kal)) {
+	else if (!isfull(q))
+	{
+		if (alp > q->front->alp || (alp == q->front->alp && kal >= q->front->kal))
+		{
 			newmhs->next = q->front;
 			q->front = newmhs;
 		}
-		else {
+		else
+		{
 			ptrnode cursor = q->front;
 			ptrnode previous = NULL;
 
 			// Cari posisi cursor agar sesuai dengan kriteria
-			while (cursor != NULL && (alp < cursor->alp || (alp == cursor->alp && kal <= cursor->kal))) {
+			while (cursor != NULL && (alp < cursor->alp || (alp == cursor->alp && kal <= cursor->kal)))
+			{
 				previous = cursor;
 				cursor = cursor->next;
 			}
 
 			newmhs->next = cursor;
-			if (cursor == NULL) {
+			if (cursor == NULL)
+			{
 				q->rear = newmhs;
 			}
-			if (previous != NULL) {
+			if (previous != NULL)
+			{
 				previous->next = newmhs;
 			}
 		}
 		q->count++;
 	}
-	else if (!q->errFlag) {
+	else if (!q->errFlag)
+	{
 		printf("Antrian penuh, maksimal 5!\n\n");
 		q->errFlag = true;
 	}
 }
 
-void display(ptrqueue q) {
-	if (q->front == NULL) {
+void display(ptrqueue q)
+{
+	if (q->front == NULL)
+	{
 		printf("Antrian kosong\n");
 		return;
 	}
-	else {
+	else
+	{
 		printf("Isi Queue:\n");
 		ptrnode cursor = q->front;
-		while (cursor != NULL) {
+		while (cursor != NULL)
+		{
 			printf("Nama: %s, Nilai Alpro: %d, Nilai Kalkulus: %d\n", cursor->nama, cursor->alp, cursor->kal);
 			cursor = cursor->next;
 		}
 	}
 }
 
-void main() {
+void main()
+{
 	ptrqueue antrian = (ptrqueue)malloc(sizeof(Tqueue));
 	init(antrian);
 

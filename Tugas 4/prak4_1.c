@@ -30,7 +30,7 @@ int hitungNode(mynode head)
 {
 	int count = 0;
 
-	struct node *now = head;
+	mynode now = head;
 	while (now != NULL)
 	{
 		count++;
