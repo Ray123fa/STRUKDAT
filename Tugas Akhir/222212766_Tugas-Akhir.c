@@ -27,7 +27,7 @@ struct node_CB
 };
 typedef struct node_CB *ptrCB;
 
-// A2. Single Linked List Contact Book
+// A2. SLL Contact Book
 struct SLL_CB
 {
 	ptrCB head;
@@ -44,7 +44,7 @@ struct node_Conn
 };
 typedef struct node_Conn *ptrConnect;
 
-// B2. Single Linked List Koneksi
+// B2. SLL Koneksi
 struct SLL_Conn
 {
 	ptrConnect head;
@@ -61,7 +61,7 @@ struct node_AdjList
 };
 typedef struct node_AdjList *ptrAdjList;
 
-// C2. Single Linked List Adjacency List
+// C2. SLL Adjacency List
 struct SLL_AdjList
 {
 	ptrAdjList head;
@@ -79,7 +79,7 @@ struct node_Hash
 };
 typedef struct node_Hash *ptrHash;
 
-// D2. Single Linked List Hash Table
+// D2. SLL Hash Table
 struct SLL_Hash
 {
 	ptrHash head;
@@ -131,7 +131,7 @@ void printNode_CB(ptrCB currNode)
 	printf("= Alamat Email    : %-26s=\n", currNode->email);
 }
 
-// A2. Single Linked List Contact Book
+// A2. SLL Contact Book
 
 /**
  * Inisialisasi linked list contact book.
@@ -140,7 +140,7 @@ void printNode_CB(ptrCB currNode)
  *
  * @param tmpList Pointer ke linked list contact book yang akan diinisialisasi.
  */
-void SLL_CB_init(ptrSLL_CB tmpList)
+void init_SLL_CB(ptrSLL_CB tmpList)
 {
 	tmpList->head = NULL;
 	tmpList->size = 0;
@@ -159,17 +159,17 @@ void SLL_CB_insert(ptrSLL_CB currList, ptrCB currNode, ptrSLL_AdjList currAdjLis
 {
 	if (currList->head == NULL)
 	{
-		currList->size++;
 		currList->head = currNode;
+		currList->size++;
 	}
 	else
 	{
-		ptrCB tmp = currList->head;
+		ptrCB cursor = currList->head;
 
-		while (tmp->next != NULL)
-			tmp = tmp->next;
+		while (cursor->next != NULL)
+			cursor = cursor->next;
 
-		tmp->next = currNode;
+		cursor->next = currNode;
 		currNode->next = NULL;
 		currList->size++;
 	}
@@ -183,7 +183,7 @@ void SLL_CB_insert(ptrSLL_CB currList, ptrCB currNode, ptrSLL_AdjList currAdjLis
  *
  * @param currList Pointer ke linked list contact book yang akan diubah.
  */
-void SLL_CB_deleteHead(ptrSLL_CB currList)
+void SLL_CB_delHead(ptrSLL_CB currList)
 {
 	if (currList->size == 0)
 		printf("Daftar Kontak Kosong!\n");
@@ -213,7 +213,7 @@ void SLL_CB_deleteHead(ptrSLL_CB currList)
  *
  * @param currList Pointer ke linked list contact book yang akan diubah.
  */
-void SLL_CB_deleteTail(ptrSLL_CB currList)
+void SLL_CB_delTail(ptrSLL_CB currList)
 {
 	if (currList->size == 0)
 		printf("Daftar Kontak Kosong!\n");
@@ -254,7 +254,7 @@ void SLL_CB_deleteTail(ptrSLL_CB currList)
 void SLL_CB_delName(ptrSLL_CB currList, char nama[])
 {
 	if (strcmp(currList->head->name, nama) == 0)
-		SLL_CB_deleteHead(currList);
+		SLL_CB_delHead(currList);
 	else
 	{
 		ptrCB cursor = currList->head;
@@ -273,7 +273,7 @@ void SLL_CB_delName(ptrSLL_CB currList, char nama[])
 			if (strcmp(tempNode->name, nama) != 0)
 				printf("Data tidak ditemukan sehingga tidak ada yang dihapus.\n");
 			else
-				SLL_CB_deleteTail(currList);
+				SLL_CB_delTail(currList);
 		}
 		else
 		{
@@ -285,7 +285,7 @@ void SLL_CB_delName(ptrSLL_CB currList, char nama[])
 	}
 }
 
-// B. Manipulate Koneksi
+// B. Koneksi
 // B1. Node Koneksi
 
 /**
@@ -304,7 +304,7 @@ ptrConnect createNode_Conn(int pkey)
 	return tempNode;
 }
 
-// B2. Single Linked List Koneksi
+// B2. SLL Koneksi
 
 /**
  * Inisialisasi linked list koneksi.
@@ -313,7 +313,7 @@ ptrConnect createNode_Conn(int pkey)
  *
  * @param tmpList Pointer ke linked list koneksi yang akan diinisialisasi.
  */
-void SLL_Conn_init(ptrSLL_Conn tmpList)
+void init_SLL_Connect(ptrSLL_Conn tmpList)
 {
 	tmpList->head = NULL;
 	tmpList->size = 0;
@@ -336,12 +336,12 @@ void SLL_Conn_insertTail(ptrSLL_Conn currList, int pkey)
 	}
 	else
 	{
-		ptrConnect tmp = currList->head;
+		ptrConnect cursor = currList->head;
 
-		while (tmp->next != NULL)
-			tmp = tmp->next;
+		while (cursor->next != NULL)
+			cursor = cursor->next;
 
-		tmp->next = tempNode;
+		cursor->next = tempNode;
 		currList->size++;
 	}
 }
@@ -351,7 +351,7 @@ void SLL_Conn_insertTail(ptrSLL_Conn currList, int pkey)
  *
  * @param currList Pointer ke linked list koneksi yang akan diubah.
  */
-void SLL_Conn_deleteHead(ptrSLL_Conn currList)
+void SLL_Conn_delHead(ptrSLL_Conn currList)
 {
 	if (currList->size == 0)
 		printf("Koneksi kosong.\n");
@@ -381,7 +381,7 @@ void SLL_Conn_deleteHead(ptrSLL_Conn currList)
  *
  * @param currList Pointer ke linked list koneksi yang akan diubah.
  */
-void SLL_Conn_deleteTail(ptrSLL_Conn currList)
+void SLL_Conn_delTail(ptrSLL_Conn currList)
 {
 	if (currList->size == 0)
 		printf("Koneksi kosong.\n");
@@ -423,7 +423,7 @@ void SLL_Conn_delPkey(ptrSLL_Conn currList, int pkey)
 	ptrConnect cursor = currList->head;
 
 	if (cursor->pkey == pkey)
-		SLL_Conn_deleteHead(currList);
+		SLL_Conn_delHead(currList);
 	else
 	{
 		ptrConnect tempNode = NULL;
@@ -441,7 +441,7 @@ void SLL_Conn_delPkey(ptrSLL_Conn currList, int pkey)
 			if (tempNode->pkey != pkey)
 				printf("Data tidak ditemukan sehingga tidak ada yang dihapus.\n");
 			else
-				SLL_Conn_deleteTail(currList);
+				SLL_Conn_delTail(currList);
 		}
 		else
 		{
@@ -451,4 +451,111 @@ void SLL_Conn_delPkey(ptrSLL_Conn currList, int pkey)
 			free(cursor);
 		}
 	}
+}
+
+// C. Adjacency List
+// C1. Node Adjacency List
+
+/**
+ * Inisialisasi node dalam adjacency list.
+ *
+ * @param currAdjListNode Pointer ke node adjacency list yang akan diinisialisasi.
+ */
+void init_nodeAdjList(ptrAdjList currAdjListNode)
+{
+	currAdjListNode->datalist = NULL;
+	currAdjListNode->next = NULL;
+}
+
+/**
+ * Membuat node baru untuk adjacency list.
+ *
+ * @param src Sumber node yang akan ditambahkan ke adjacency list.
+ * @return Pointer ke node adjacency list yang baru dibuat.
+ */
+ptrAdjList createNode_Adjlist(int src)
+{
+	ptrSLL_Conn tempSLL = (ptrSLL_Conn)malloc(sizeof(struct SLL_Conn));
+	init_SLL_Connect(tempSLL);
+	SLL_Conn_insertTail(tempSLL, src);
+
+	ptrAdjList tempAdjlist = (ptrAdjList)malloc(sizeof(struct node_AdjList));
+	init_nodeAdjList(tempAdjlist);
+	tempAdjlist->datalist = tempSLL;
+
+	return tempAdjlist;
+}
+
+// C2. SLL Adjacency List
+
+/**
+ * Fungsi ini digunakan untuk menginisialisasi linked list adjacency list.
+ *
+ * @param currAdjList Pointer ke linked list adjacency list yang akan diinisialisasi.
+ */
+void init_SLL_AdjList(ptrSLL_AdjList currAdjList)
+{
+	currAdjList->head = NULL;
+	currAdjList->size = 0;
+}
+
+/**
+ * Menyisipkan node baru pada bagian akhir (tail) dari SLL adjacency list.
+ *
+ * @param currAdjList Pointer ke SLL adjacency list.
+ * @param src Nilai simpul yang akan disisipkan.
+ */
+void SLL_AdjList_insertTail(ptrSLL_AdjList currAdjList, int src)
+{
+	ptrAdjList tempNode = createNode_Adjlist(src);
+
+	if (currAdjList->head == NULL)
+	{
+		currAdjList->head = tempNode;
+		currAdjList->size++;
+	}
+	else
+	{
+		ptrAdjList cursor = currAdjList->head;
+
+		while (cursor->next != NULL)
+			cursor = cursor->next;
+
+		cursor->next = tempNode;
+		currAdjList->size++;
+	}
+}
+
+/**
+ * Menyisipkan koneksi baru antara dua node pada SLL adjacency list.
+ *
+ * @param currAdjList Pointer ke SLL adjacency list.
+ * @param src Indeks node sumber.
+ * @param dest Indeks node tujuan.
+ */
+void SLL_AdjList_insertConnect(ptrSLL_AdjList currAdjList, int src, int dest)
+{
+	ptrAdjList cursor = currAdjList->head;
+
+	while (cursor != NULL && cursor->datalist->head->pkey != src)
+		cursor = cursor->next;
+
+	SLL_Conn_insertTail(cursor->datalist, dest);
+}
+
+/**
+ * Menghapus koneksi antara dua node pada SLL adjacency list.
+ *
+ * @param currAdjList Pointer ke SLL adjacency list.
+ * @param src Indeks node sumber.
+ * @param dest Indeks node tujuan.
+ */
+void SLL_AdjList_delConnect(ptrSLL_AdjList currAdjList, int src, int dest)
+{
+	ptrAdjList cursor = currAdjList->head;
+
+	while (cursor != NULL && cursor->datalist->head->pkey != src)
+		cursor = cursor->next;
+
+	SLL_Conn_delPkey(cursor->datalist, dest);
 }
