@@ -21,7 +21,7 @@ struct node_CB
 	char name[30];
 	int age;
 	char sex;
-	char telNo[15];
+	char telpNo[15];
 	char email[40];
 	struct node_CB *next;
 };
@@ -110,7 +110,7 @@ ptrCB createNode_CB(char nama[], unsigned umur, char jk, char noTelp[], char ema
 	strcpy(tempNode->name, nama);
 	tempNode->age = umur;
 	tempNode->sex = jk;
-	strcpy(tempNode->telNo, noTelp);
+	strcpy(tempNode->telpNo, noTelp);
 	strcpy(tempNode->email, email);
 	tempNode->next = NULL;
 
@@ -127,7 +127,7 @@ void printNode_CB(ptrCB currNode)
 	printf("= Nama            : %-26s=\n", currNode->name);
 	printf("= Umur            : %-26u=\n", currNode->age);
 	printf("= Jenis Kelamin   : %-26c=\n", currNode->sex);
-	printf("= Nomor Telepon   : %-26s=\n", currNode->telNo);
+	printf("= Nomor Telepon   : %-26s=\n", currNode->telpNo);
 	printf("= Alamat Email    : %-26s=\n", currNode->email);
 }
 
@@ -200,7 +200,7 @@ void SLL_CB_deleteHead(ptrSLL_CB currList)
 	{
 		ptrCB tempNode = currList->head;
 
-		currList->head = currList->head->next;
+		currList->head = tempNode->next;
 		tempNode->next = NULL;
 		currList->size--;
 
@@ -251,7 +251,7 @@ void SLL_CB_deleteTail(ptrSLL_CB currList)
  * @param currList Pointer ke linked list contact book.
  * @param nama Nama yang ingin dihapus dari contact book.
  */
-void SLL_CB_deleteName(ptrSLL_CB currList, char nama[])
+void SLL_CB_delName(ptrSLL_CB currList, char nama[])
 {
 	if (strcmp(currList->head->name, nama) == 0)
 		SLL_CB_deleteHead(currList);
@@ -274,6 +274,174 @@ void SLL_CB_deleteName(ptrSLL_CB currList, char nama[])
 				printf("Data tidak ditemukan sehingga tidak ada yang dihapus.\n");
 			else
 				SLL_CB_deleteTail(currList);
+		}
+		else
+		{
+			tempNode->next = cursor->next;
+			cursor->next = NULL;
+			currList->size--;
+			free(cursor);
+		}
+	}
+}
+
+// B. Manipulate Koneksi
+// B1. Node Koneksi
+
+/**
+ * Membuat dan menginisialisasi node baru untuk contact book.
+ *
+ * @param pkey Kunci utama untuk node contact book.
+ * @return Pointer ke node contact book yang baru dibuat.
+ */
+ptrConnect createNode_Conn(int pkey)
+{
+	ptrConnect tempNode = (ptrConnect)malloc(sizeof(struct node_Conn));
+
+	tempNode->pkey = pkey;
+	tempNode->next = NULL;
+
+	return tempNode;
+}
+
+// B2. Single Linked List Koneksi
+
+/**
+ * Inisialisasi linked list koneksi.
+ *
+ * Fungsi ini digunakan untuk menginisialisasi linked list koneksi.
+ *
+ * @param tmpList Pointer ke linked list koneksi yang akan diinisialisasi.
+ */
+void SLL_Conn_init(ptrSLL_Conn tmpList)
+{
+	tmpList->head = NULL;
+	tmpList->size = 0;
+}
+
+/**
+ * Menambahkan elemen baru ke akhir daftar linked list.
+ *
+ * @param currList Pointer ke daftar linked list yang akan dimodifikasi.
+ * @param pkey Nilai kunci untuk elemen baru yang akan ditambahkan.
+ */
+void SLL_Conn_insertTail(ptrSLL_Conn currList, int pkey)
+{
+	ptrConnect tempNode = createNode_Conn(pkey);
+
+	if (currList->head == NULL)
+	{
+		currList->head = tempNode;
+		currList->size++;
+	}
+	else
+	{
+		ptrConnect tmp = currList->head;
+
+		while (tmp->next != NULL)
+			tmp = tmp->next;
+
+		tmp->next = tempNode;
+		currList->size++;
+	}
+}
+
+/**
+ * Menghapus elemen pertama (head) dari linked list koneksi.
+ *
+ * @param currList Pointer ke linked list koneksi yang akan diubah.
+ */
+void SLL_Conn_deleteHead(ptrSLL_Conn currList)
+{
+	if (currList->size == 0)
+		printf("Koneksi kosong.\n");
+	else if (currList->size == 1)
+	{
+		ptrConnect tempNode = currList->head;
+
+		currList->head = NULL;
+		currList->size = 0;
+
+		free(tempNode);
+	}
+	else
+	{
+		ptrConnect tempNode = currList->head;
+
+		currList->head = tempNode->next;
+		tempNode->next = NULL;
+		currList->size--;
+
+		free(tempNode);
+	}
+}
+
+/**
+ * Menghapus elemen terakhir (tail) dari linked list koneksi.
+ *
+ * @param currList Pointer ke linked list koneksi yang akan diubah.
+ */
+void SLL_Conn_deleteTail(ptrSLL_Conn currList)
+{
+	if (currList->size == 0)
+		printf("Koneksi kosong.\n");
+	else if (currList->size == 1)
+	{
+		ptrConnect tempNode = currList->head;
+
+		currList->head = NULL;
+		currList->size = 0;
+
+		free(tempNode);
+	}
+	else
+	{
+		ptrConnect tempNode = currList->head;
+		ptrConnect prev = NULL;
+
+		while (tempNode->next != NULL)
+		{
+			prev = tempNode;
+			tempNode = tempNode->next;
+		}
+
+		prev->next = NULL;
+		currList->size--;
+
+		free(tempNode);
+	}
+}
+
+/**
+ * Menghapus elemen dalam linked list koneksi berdasarkan nilai kunci.
+ *
+ * @param currList Pointer ke linked list koneksi yang akan diubah.
+ * @param pkey Nilai kunci yang ingin dihapus dari linked list koneksi.
+ */
+void SLL_Conn_delPkey(ptrSLL_Conn currList, int pkey)
+{
+	ptrConnect cursor = currList->head;
+
+	if (cursor->pkey == pkey)
+		SLL_Conn_deleteHead(currList);
+	else
+	{
+		ptrConnect tempNode = NULL;
+		int count = 0;
+
+		while (cursor != NULL && cursor->pkey != pkey)
+		{
+			tempNode = cursor;
+			cursor = cursor->next;
+			count++;
+		}
+
+		if (count == currList->size)
+		{
+			if (tempNode->pkey != pkey)
+				printf("Data tidak ditemukan sehingga tidak ada yang dihapus.\n");
+			else
+				SLL_Conn_deleteTail(currList);
 		}
 		else
 		{
