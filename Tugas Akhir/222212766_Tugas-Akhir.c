@@ -559,3 +559,90 @@ void SLL_AdjList_delConnect(ptrSLL_AdjList currAdjList, int src, int dest)
 
 	SLL_Conn_delPkey(cursor->datalist, dest);
 }
+
+// D. Hash Table
+// D1. Node Hash Table
+
+/**
+ * Membuat node baru untuk hash table.
+ *
+ * @param pkey Nilai kunci untuk node hash table.
+ * @param currNode Pointer ke node contact book.
+ * @return Pointer ke node hash table yang baru dibuat.
+ */
+ptrHash createNode_Hash(int pkey, ptrCB currNode)
+{
+	ptrHash temp = (ptrHash)malloc(sizeof(struct node_Hash));
+	ptrCB copiedNode = (ptrCB)malloc(sizeof(struct node_CB));
+
+	copiedNode->pkey = currNode->pkey;
+	strcpy(copiedNode->name, currNode->name);
+	copiedNode->age = currNode->age;
+	copiedNode->sex = currNode->sex;
+	strcpy(copiedNode->telpNo, currNode->telpNo);
+	strcpy(copiedNode->email, currNode->email);
+	copiedNode->next = NULL;
+
+	temp->pkey = pkey;
+	temp->data = copiedNode;
+	temp->next = NULL;
+
+	return temp;
+}
+
+// D2. SLL Hash Table
+
+/**
+ * Fungsi ini digunakan untuk menginisialisasi linked list hash table.
+ *
+ * @param currHashTable Pointer ke linked list hash table yang akan diinisialisasi.
+ */
+void init_SLL_Hash(ptrSLL_Hash currHashTable)
+{
+	currHashTable->head = NULL;
+	currHashTable->size = 0;
+}
+
+/**
+ * Menyisipkan node baru ke dalam linked list yang terhubung dengan hash table.
+ *
+ * @param currHashTable Pointer ke hash table yang ingin dimodifikasi.
+ * @param pkey Kunci untuk menentukan posisi linked list yang akan dimasukkan node baru.
+ * @param currNode Pointer ke node yang akan disisipkan.
+ */
+void SLL_Hash_insertTail(ptrSLL_Hash currHashTable, int pkey, ptrCB currNode)
+{
+	ptrHash newHashNode = createNode_Hash(pkey, currNode);
+
+	if (currHashTable->head == NULL)
+	{
+		currHashTable->head = newHashNode;
+		currHashTable->size++;
+	}
+	else
+	{
+		ptrHash cursor = currHashTable->head;
+
+		while (cursor->next != NULL)
+			cursor = cursor->next;
+
+		cursor->next = newHashNode;
+		newHashNode->next = NULL;
+		currHashTable->size++;
+	}
+}
+
+ptrCB SLL_Hash_getNodeCB(ptrSLL_Hash currHashTable, int pkey)
+{
+	ptrHash cursor = currHashTable->head;
+
+	while (cursor != NULL)
+	{
+		if (cursor->pkey == pkey)
+			return cursor->data;
+
+		cursor = cursor->next;
+	}
+
+	return NULL;
+}
