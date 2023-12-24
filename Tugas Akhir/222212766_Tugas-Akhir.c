@@ -949,3 +949,117 @@ void editContact(ptrSLL_CB contactList, ptrSLL_Hash idxKey)
 	getchar();
 	system("cls");
 }
+
+// 4. Sort and Search
+
+// Merge Sort By Name
+/**
+ * Fungsi untuk menggabungkan dua linked list yang sudah diurutkan secara terurut.
+ *
+ * @param _1node Pointer ke node pertama dari linked list pertama.
+ * @param _2node Pointer ke node pertama dari linked list kedua.
+ * @param isAsc Boolean yang menentukan apakah pengurutan dilakukan secara ascending (true) atau descending (false).
+ * @return Pointer ke node pertama dari linked list hasil penggabungan.
+ */
+ptrCB handlingMergeSort(ptrCB _1node, ptrCB _2node, bool isAsc)
+{
+	ptrCB merged = (ptrCB)malloc(sizeof(struct node_CB));
+	ptrCB cursor = (ptrCB)malloc(sizeof(struct node_CB));
+
+	merged = cursor;
+	if (isAsc)
+	{
+		while (_1node != NULL && _2node != NULL)
+		{
+			if (strcmp(_1node->name, _2node->name) < 0)
+			{
+				cursor->next = _1node;
+				_1node = _1node->next;
+			}
+			else
+			{
+				cursor->next = _2node;
+				_2node = _2node->next;
+			}
+			cursor = cursor->next;
+		}
+	}
+	else
+	{
+		while (_1node != NULL && _2node != NULL)
+		{
+			if (strcmp(_1node->name, _2node->name) > 0)
+			{
+				cursor->next = _1node;
+				_1node = _1node->next;
+			}
+			else
+			{
+				cursor->next = _2node;
+				_2node = _2node->next;
+			}
+			cursor = cursor->next;
+		}
+	}
+
+	while (_1node != NULL)
+	{
+		cursor->next = _1node;
+		_1node = _1node->next;
+		cursor = cursor->next;
+	}
+
+	while (_2node != NULL)
+	{
+		cursor->next = _2node;
+		_2node = _2node->next;
+		cursor = cursor->next;
+	}
+
+	return merged->next;
+}
+
+/**
+ * Fungsi ini digunakan untuk mencari dan mengembalikan pointer ke tengah dari linked list contact book.
+ *
+ * @param head Pointer ke head dari linked list contact book.
+ * @return Pointer ke tengah dari linked list contact book.
+ */
+ptrCB mid_SLL_CB(ptrCB head)
+{
+	if (head == NULL)
+		return head;
+
+	ptrCB slow = head;
+	ptrCB fast = head->next;
+
+	while (slow->next != NULL && (fast->next != NULL && fast->next->next != NULL))
+	{
+		slow = slow->next;
+		fast = fast->next->next;
+	}
+
+	return slow;
+}
+
+/**
+ * Mengurutkan daftar kontak dalam buku kontak berdasarkan nama menggunakan algoritma Merge Sort.
+ *
+ * @param head Pointer ke kepala (head) dari buku kontak yang akan diurutkan.
+ * @param isAsc Menentukan apakah pengurutan dilakukan secara ascending (true) atau descending (false).
+ * @return Pointer ke kepala (head) dari buku kontak yang sudah diurutkan.
+ */
+ptrCB mergeSortName(ptrCB head, bool isAsc)
+{
+	if (head == NULL || head->next == NULL)
+		return head;
+
+	ptrCB mid = mid_SLL_CB(head);
+	ptrCB head2 = mid->next;
+	mid->next = NULL;
+
+	ptrCB left = mergeSortName(head, isAsc);
+	ptrCB right = mergeSortName(head2, isAsc);
+
+	return handlingMergeSort(left, right, isAsc);
+}
