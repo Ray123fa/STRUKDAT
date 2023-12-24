@@ -3,6 +3,7 @@
 // 2KS1
 
 #include <stdio.h>
+#include <unistd.h>
 #include <stdlib.h>
 #include <stdbool.h>
 #include <string.h>
@@ -645,4 +646,306 @@ ptrCB SLL_Hash_getNodeCB(ptrSLL_Hash currHashTable, int pkey)
 	}
 
 	return NULL;
+}
+
+// 3. Menu
+
+/**
+ * Fungsi ini digunakan untuk memasukkan data kontak ke dalam daftar kontak.
+ *
+ * @param contactList Pointer ke head dari linked list daftar kontak.
+ * @param connectionList Pointer ke head dari linked list daftar koneksi antar kontak.
+ * @param idxKey Pointer ke head dari linked list daftar indeks kunci.
+ */
+void insertContact(ptrSLL_CB contactList, ptrSLL_AdjList connectionList, ptrSLL_Hash idxKey)
+{
+	char nama[30];
+	unsigned umur;
+	char sex;
+	char noTelp[13];
+	char email[40];
+
+	printf("==================================================\n");
+	printf("%-19sTambah Kontak%18s\n", "=", "=");
+	printf("==================================================\n");
+	printf("= Nama                : ");
+	scanf(" %30[^\n]", nama);
+	printf("= Umur                : ");
+	scanf("%u", &umur);
+	printf("= Jenis Kelamin [L/P] : ");
+	scanf(" %c", &sex);
+	printf("= Nomor Telepon       : ");
+	scanf(" %13s", noTelp);
+	printf("= Alamat Email        : ");
+	scanf(" %40s", email);
+	printf("==================================================\n");
+
+	SLL_CB_insert(contactList, createNode_CB(nama, umur, sex, noTelp, email), connectionList, idxKey);
+	contactList->head = mergeSortName(contactList->head, true);
+
+	sleep(1);
+	system("cls");
+	printf("Data berhasil ditambahkan!\n\n");
+	printf("Tekan untuk melanjutkan...");
+	getchar();
+	system("cls");
+}
+
+/**
+ * Fungsi untuk menghapus kontak dari daftar kontak.
+ *
+ * @param contactList Pointer ke head dari linked list kontak.
+ * @param connectionList Pointer ke head dari linked list koneksi antar kontak.
+ * @param idxKey Pointer ke head dari linked list indeks kunci.
+ */
+void delContact(ptrSLL_CB contactList, ptrSLL_AdjList connectionList, ptrSLL_Hash idxKey)
+{
+	char nama[30];
+
+	printf("==================================================\n");
+	printf("%-19sHapus Kontak%19s\n", "=", "=");
+	printf("==================================================\n");
+	printf("= Masukkan nama: ");
+	scanf(" %30[^\n]", nama);
+	printf("==================================================\n\n");
+
+	contactList->head = mergeSortName(contactList->head, true);
+	ptrCB temp = binarySearchName(contactList, nama);
+
+	sleep(1);
+	if (temp == NULL)
+		printf("Data tidak ditemukan, tidak ada yang dihapus!\n");
+	else
+	{
+		SLL_CB_deleteName(contactList, temp->name);
+		printf("Data Berhasil dihapus!\n");
+	}
+
+	printf("\nTekan untuk melanjutkan...");
+	getchar();
+	system("cls");
+}
+
+/**
+ * Menampilkan daftar kontak.
+ *
+ * @param contactList Pointer ke linked list yang berisi daftar kontak.
+ */
+void displayContacts(ptrSLL_CB contactList)
+{
+	ptrCB cursor = contactList->head;
+
+	printf("==================================================\n");
+	printf("%-18sDaftar Kontak%18s\n", "=", "=");
+	printf("==================================================\n");
+	printf("= Jumlah kontak: %-32d=\n", contactList->size);
+
+	while (cursor != NULL)
+	{
+		printf("==================================================\n");
+		printNode_CB(cursor);
+		cursor = cursor->next;
+	}
+
+	printf("==================================================\n\n");
+	printf("Tekan untuk melanjutkan...");
+	getchar();
+	system("cls");
+}
+
+/**
+ * Mengurutkan daftar kontak berdasarkan nama.
+ *
+ * @param contactList Pointer ke linked list yang berisi daftar kontak.
+ */
+void sortContactByName(ptrSLL_CB contactList)
+{
+	int choose;
+
+	printf("==================================================\n");
+	printf("%-18sUrutkan Kontak%18s\n", "=", "=");
+	printf("==================================================\n");
+	printf("= 1. Ascending  (A to Z) %-24s=\n", " ");
+	printf("= 2. Descending (Z to A) %-24s=\n", " ");
+	printf("==================================================\n");
+	printf("= Pilihan :                                      =\n");
+	printf("==================================================\n");
+
+	getchar();
+	gotoxy(12, 6);
+	scanf("%d", &choose);
+
+	getchar();
+	while (choose != 1 && choose != 2)
+	{
+		gotoxy(12, 6);
+		printf(" ");
+		gotoxy(12, 6);
+		scanf("%d", &choose);
+		getchar();
+	}
+	contactList->head = mergeSortName(contactList->head, (bool)(2 - choose));
+
+	printf("==================================================\n\n");
+	if (choose == 1)
+		printf("Kontak berhasil diurutkan secara ascending berdasarkan nama.\n");
+	else
+		printf("Kontak berhasil diurutkan secara descending berdasarkan nama.\n");
+
+	printf("\nTekan untuk melanjutkan...");
+	getchar();
+	system("cls");
+}
+
+/**
+ * Fungsi ini digunakan untuk mencari kontak berdasarkan nama pada linked list.
+ *
+ * @param contactList Pointer ke linked list yang berisi daftar kontak.
+ */
+void searchByName(ptrSLL_CB contactList)
+{
+	char nama[30];
+
+	printf("==================================================\n");
+	printf("%-20sCari Kontak%19s\n", "=", "=");
+	printf("==================================================\n");
+	printf("= Masukkan nama:                                 =\n");
+	printf("==================================================\n");
+
+	getchar();
+	gotoxy(17, 3);
+	scanf(" %30[^\n]", nama);
+
+	contactList->head = mergeSortName(contactList->head, true);
+	ptrCB temp = binarySearchName(contactList, nama);
+
+	sleep(1);
+	system("cls");
+
+	printf("==================================================\n");
+	printf("%-20s H A S I L %19s\n", "=", "=");
+	printf("==================================================\n");
+
+	if (temp != NULL)
+		printNode_CB(temp);
+	else
+		printf("Data tidak ditemukan!\n");
+
+	printf("==================================================\n\n");
+	printf("Tekan untuk melanjutkan...");
+	getchar();
+	system("cls");
+}
+
+/**
+ * Dipanggil ketika fungsi editContact dieksekusi.
+ * Dalam fungsi ini diperlukan input dari user untuk mengubah data kontak berdasar choice yang telah user berikan pada fungsi editContact.
+ *
+ * @param contactList Pointer ke linked list yang berisi daftar kontak.
+ * @param choice Pilihan yang telah user berikan pada fungsi editContact.
+ * @param pkey Kunci utama dari node yang akan diubah.
+ * @param idxKey Pointer ke linked list yang berisi indeks kunci.
+ */
+void handlingEditContact(ptrSLL_CB contactList, int choice, int pkey, ptrSLL_Hash idxKey)
+{
+	char input[40]; // Nama/Email/No. Telp
+	int age;
+	char sex; // L/P
+
+	ptrCB cursor = contactList->head;
+	while (cursor->next != NULL && cursor->pkey != pkey)
+		cursor = cursor->next;
+
+	printf("Masukkan data baru: ");
+	switch (choice)
+	{
+	case 1:
+		scanf(" %30[^\n]", input);
+
+		strcpy(cursor->name, input);
+		strcpy(SLL_Hash_getNodeCB(idxKey, pkey)->name, input);
+		break;
+	case 2:
+		scanf("%d", &age);
+
+		cursor->age = age;
+		SLL_Hash_getNodeCB(idxKey, pkey)->age = age;
+		break;
+	case 3:
+		scanf("%c", &sex);
+
+		cursor->sex = sex;
+		SLL_Hash_getNodeCB(idxKey, pkey)->sex = sex;
+		break;
+	case 4:
+		scanf(" %13s", input);
+
+		strcpy(cursor->telpNo, input);
+		strcpy(SLL_Hash_getNodeCB(idxKey, pkey)->telpNo, input);
+		break;
+	case 5:
+		scanf(" %40s", input);
+
+		strcpy(cursor->email, input);
+		strcpy(SLL_Hash_getNodeCB(idxKey, pkey)->email, input);
+	}
+}
+
+/**
+ * Fungsi ini merupakan interface untuk mengedit kontak.
+ *
+ * @param contactList Pointer ke linked list yang berisi daftar kontak.
+ * @param idxKey Pointer ke linked list yang berisi indeks kunci.
+ */
+void editContact(ptrSLL_CB contactList, ptrSLL_Hash idxKey)
+{
+	char nama[30];
+	int choice;
+
+	printf("==================================================\n");
+	printf("%-20sEdit Kontak%19s\n", "=", "=");
+	printf("==================================================\n");
+	printf("= Masukkan nama: %33s", "=");
+	printf("==================================================\n\n");
+
+	getchar();
+	gotoxy(17, 3);
+	scanf(" %30[^\n]", nama);
+
+	ptrCB temp = binarySearchName(contactList, nama);
+
+	if (temp != NULL)
+	{
+		printf("= Pilih data yang ingin diubah: %17s=\n", " ");
+		printf("= 1. Nama %39s=\n", " ");
+		printf("= 2. Umur %39s=\n", " ");
+		printf("= 3. Jenis Kelamin %30s=\n", " ");
+		printf("= 4. Nomor Telepon %30s=\n", " ");
+		printf("= 5. Alamat Email %31s=\n", " ");
+		printf("==================================================\n");
+		printf("= Pilihan: %38s=\n", " ");
+		printf("==================================================\n");
+
+		gotoxy(12, 12);
+		scanf("%d", &choice);
+		getchar();
+		while (choice < 1 || choice > 5)
+		{
+			gotoxy(12, 12);
+			printf(" ");
+			gotoxy(12, 12);
+			scanf("%d", &choice);
+			getchar();
+		}
+
+		printf("\n");
+		handlingEditContact(contactList, choice, temp->pkey, idxKey);
+	}
+	else
+		printf("Data tidak ditemukan!\n");
+
+	printf("==================================================\n\n");
+	printf("Tekan untuk melanjutkan...");
+	getchar();
+	system("cls");
 }
