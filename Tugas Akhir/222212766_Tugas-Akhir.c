@@ -187,7 +187,7 @@ void SLL_CB_insert(ptrSLL_CB currList, ptrCB currNode, ptrSLL_AdjList currAdjLis
 void SLL_CB_delHead(ptrSLL_CB currList)
 {
 	if (currList->size == 0)
-		printf("Daftar Kontak Kosong!\n");
+		printf("Kontak kosong!\n");
 	else if (currList->size == 1)
 	{
 		ptrCB tempNode = currList->head;
@@ -217,7 +217,7 @@ void SLL_CB_delHead(ptrSLL_CB currList)
 void SLL_CB_delTail(ptrSLL_CB currList)
 {
 	if (currList->size == 0)
-		printf("Daftar Kontak Kosong!\n");
+		printf("Kontak kosong!\n");
 
 	if (currList->size == 1)
 	{
@@ -1188,13 +1188,145 @@ void wildcardSearch(ptrSLL_CB contactList)
 			if (isMatch(pattern, cursor->name))
 			{
 				printNode_CB(cursor);
-				printf("==================================================\n");
 			}
 			cursor = cursor->next;
 		}
 	}
 
+	printf("==================================================\n");
 	printf("\nTekan untuk melanjutkan...");
+	getchar();
+	system("cls");
+}
+
+// 6. Lainnya
+
+// Cari Primary Key
+/**
+ * Fungsi ini digunakan untuk mencari primary key (pkey) berdasarkan nama pada linked list.
+ *
+ * @param contactList Pointer ke linked list yang berisi data kontak.
+ * @param nama Nama yang akan dicari dalam linked list.
+ * @return Nilai pkey dari kontak yang memiliki nama yang sesuai, atau -1 jika tidak ditemukan.
+ */
+int searchPkey(ptrSLL_CB contactList, char nama[])
+{
+	contactList->head = mergeSortName(contactList->head, true);
+	ptrCB temp = binarySearchName(contactList, nama);
+
+	if (temp != NULL)
+		return temp->pkey;
+	else
+		return -1;
+}
+
+// Umur Minimum
+/**
+ * Fungsi ini digunakan untuk mencari umur minimum dari daftar kontak.
+ *
+ * @param contactList Pointer ke linked list yang berisi daftar kontak.
+ * @return Umur minimum dari daftar kontak.
+ */
+unsigned minAge(ptrSLL_CB contactList)
+{
+	ptrCB cursor = contactList->head;
+	unsigned min = 0;
+
+	if (cursor == NULL)
+		return -1;
+	else
+	{
+		int min = cursor->age;
+		while (cursor != NULL)
+		{
+			if (cursor->age < min)
+				min = cursor->age;
+
+			cursor = cursor->next;
+		}
+
+		return min;
+	}
+}
+
+// Umur Maksimum
+/**
+ * Fungsi ini digunakan untuk mencari umur maksimum dari daftar kontak.
+ *
+ * @param contactList Pointer ke linked list yang berisi daftar kontak.
+ * @return Umur maksimum dari daftar kontak.
+ */
+unsigned maxAge(ptrSLL_CB contactList)
+{
+	ptrCB cursor = contactList->head;
+	unsigned max = 0;
+
+	if (cursor == NULL)
+		return -1;
+	else
+	{
+		int max = cursor->age;
+		while (cursor != NULL)
+		{
+			if (cursor->age > max)
+				max = cursor->age;
+
+			cursor = cursor->next;
+		}
+
+		return max;
+	}
+}
+
+// Rerata Umur
+/**
+ * Fungsi ini digunakan untuk mencari rerata umur dari daftar kontak.
+ *
+ * @param contactList Pointer ke linked list yang berisi daftar kontak.
+ * @return Rerata umur dari daftar kontak.
+ */
+float avgAge(ptrSLL_CB contactList)
+{
+	ptrCB cursor = contactList->head;
+
+	if (cursor == NULL)
+		return -1;
+	else
+	{
+		float sum = 0;
+		while (cursor != NULL)
+		{
+			sum += cursor->age;
+			cursor = cursor->next;
+		}
+
+		return sum / contactList->size;
+	}
+}
+
+// Statistik Umur
+/**
+ * Menghitung statistik usia dari daftar kontak.
+ *
+ * @param contactList Pointer ke head dari linked list kontak.
+ */
+void ageStatistics(ptrSLL_CB contactList)
+{
+	printf("==================================================\n");
+	printf("%-18sStatistik Umur%18s\n", "=", "=");
+	printf("==================================================\n");
+
+	if (contactList->size == 0)
+		printf("= Kontak kosong! %33s\n", "=");
+	else
+	{
+		printf("= Umur minimum: %-33u=\n", minAge(contactList));
+		printf("= Umur maksimum: %-32u=\n", maxAge(contactList));
+		printf("= Rerata umur: %-34.2f=\n", avgAge(contactList));
+	}
+
+	printf("==================================================\n\n");
+	printf("Tekan untuk melanjutkan...");
 	getchar();
 	system("cls");
 }
