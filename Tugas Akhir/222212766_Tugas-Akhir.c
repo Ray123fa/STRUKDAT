@@ -952,7 +952,7 @@ void editContact(ptrSLL_CB contactList, ptrSLL_Hash idxKey)
 
 // 4. Sort and Search
 
-// Merge Sort By Name
+// Merge Sort by Name
 /**
  * Fungsi untuk menggabungkan dua linked list yang sudah diurutkan secara terurut.
  *
@@ -1062,4 +1062,63 @@ ptrCB mergeSortName(ptrCB head, bool isAsc)
 	ptrCB right = mergeSortName(head2, isAsc);
 
 	return handlingMergeSort(left, right, isAsc);
+}
+
+// Binary Search by Name
+/**
+ * Fungsi middle digunakan untuk mencari pointer ke tengah dari dua pointer contact book.
+ *
+ * @param start Pointer ke awal contact book.
+ * @param last Pointer ke akhir contact book.
+ * @return Pointer ke tengah dari dua pointer contact book.
+ */
+ptrCB middle(ptrCB start, ptrCB last)
+{
+	if (start == NULL)
+		return NULL;
+
+	ptrCB slow = start;
+	ptrCB fast = start->next;
+
+	while (fast != last)
+	{
+		fast = fast->next;
+		if (fast != last)
+		{
+			slow = slow->next;
+			fast = fast->next;
+		}
+	}
+
+	return slow;
+}
+
+/**
+ * Fungsi untuk melakukan pencarian biner berdasarkan nama pada buku kontak.
+ *
+ * @param contactList Pointer ke linked list buku kontak.
+ * @param nama Nama yang akan dicari.
+ * @return Pointer ke node dengan nama yang sesuai, atau NULL jika tidak ditemukan.
+ */
+ptrCB binarySearchName(ptrSLL_CB contactList, char nama[])
+{
+	ptrCB start = contactList->head;
+	ptrCB last = NULL;
+
+	do
+	{
+		ptrCB mid = middle(start, last);
+
+		if (mid == NULL)
+			return NULL;
+
+		if (strcmp(mid->name, nama) == 0)
+			return mid;
+		else if (strcmp(mid->name, nama) < 0)
+			start = mid->next;
+		else
+			last = mid;
+	} while (last == NULL || last != start);
+
+	return NULL;
 }
