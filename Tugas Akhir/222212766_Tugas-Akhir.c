@@ -2,33 +2,33 @@
 // 222212766
 // 2KS1
 
+#include <windows.h> // to call COORD
+#include <unistd.h>	 // to call sleep()
 #include <stdio.h>
-#include <unistd.h>
-#include <stdlib.h>
-#include <stdbool.h>
-#include <string.h>
+#include <stdlib.h>	 // to call malloc()
+#include <stdbool.h> // to call bool
+#include <string.h>	 // to call strcpy()
 
-// I. Deklarasi Primary Key
+// Deklarasi Primary Key
 static int pkey = 1;
 
-// II. Deklarasi Awal Sub-Program
-// 1. Definisi Node & Linked List
+// Struct
 
-// A. Contact Book
-// A1. Node Contact Book
+// Contact Book
+// Node Contact Book
 struct node_CB
 {
 	int pkey;
 	char name[30];
 	int age;
 	char sex;
-	char telpNo[15];
+	char telpNo[13];
 	char email[40];
 	struct node_CB *next;
 };
 typedef struct node_CB *ptrCB;
 
-// A2. SLL Contact Book
+// SLL Contact Book
 struct SLL_CB
 {
 	ptrCB head;
@@ -36,8 +36,8 @@ struct SLL_CB
 };
 typedef struct SLL_CB *ptrSLL_CB;
 
-// B. Koneksi
-// B1. Node Koneksi
+// Koneksi
+// Node Koneksi
 struct node_Conn
 {
 	int pkey;
@@ -45,7 +45,7 @@ struct node_Conn
 };
 typedef struct node_Conn *ptrConnect;
 
-// B2. SLL Koneksi
+// SLL Koneksi
 struct SLL_Conn
 {
 	ptrConnect head;
@@ -53,8 +53,8 @@ struct SLL_Conn
 };
 typedef struct SLL_Conn *ptrSLL_Conn;
 
-// C. Adjaceny List
-// C1. Node Adjacency List
+// Adjaceny List
+// Node Adjacency List
 struct node_AdjList
 {
 	ptrSLL_Conn datalist;
@@ -62,7 +62,7 @@ struct node_AdjList
 };
 typedef struct node_AdjList *ptrAdjList;
 
-// C2. SLL Adjacency List
+// SLL Adjacency List
 struct SLL_AdjList
 {
 	ptrAdjList head;
@@ -70,8 +70,8 @@ struct SLL_AdjList
 };
 typedef struct SLL_AdjList *ptrSLL_AdjList;
 
-// D. Hash Table
-// D1. Node Hash Table
+// Hash Table
+// Node Hash Table
 struct node_Hash
 {
 	int pkey;
@@ -80,7 +80,7 @@ struct node_Hash
 };
 typedef struct node_Hash *ptrHash;
 
-// D2. SLL Hash Table
+// SLL Hash Table
 struct SLL_Hash
 {
 	ptrHash head;
@@ -88,11 +88,174 @@ struct SLL_Hash
 };
 typedef struct SLL_Hash *ptrSLL_Hash;
 
-// 2. Manipulate Node & Linked List
+// Struct End
 
-// A. Contact Book
-// A1. Node Contact Book
+// Function List
+ptrCB createNode_CB(char nama[], unsigned umur, char jk, char noTelp[], char email[]);
+void printNode_CB(ptrCB currNode);
+void init_SLL_CB(ptrSLL_CB tmpList);
+void SLL_CB_insert(ptrSLL_CB currList, ptrCB currNode, ptrSLL_AdjList currAdjList, ptrSLL_Hash currHashTable);
+void SLL_CB_delHead(ptrSLL_CB currList);
+void SLL_CB_delTail(ptrSLL_CB currList);
+void SLL_CB_delName(ptrSLL_CB currList, char nama[]);
+void init_SLL_Connect(ptrSLL_Conn tmpList);
+void SLL_Conn_insertTail(ptrSLL_Conn currList, int pkey);
+void SLL_Conn_delHead(ptrSLL_Conn currList);
+void SLL_Conn_delTail(ptrSLL_Conn currList);
+void SLL_Conn_delPkey(ptrSLL_Conn currList, int pkey);
+void init_nodeAdjList(ptrAdjList currAdjListNode);
+ptrAdjList createNode_Adjlist(int src);
+void init_SLL_AdjList(ptrSLL_AdjList currAdjList);
+void SLL_AdjList_insertTail(ptrSLL_AdjList currAdjList, int src);
+bool SLL_AdjList_checkConnection(ptrSLL_AdjList currAdjList, int src, int dest);
+void SLL_AdjList_insertConnect(ptrSLL_AdjList currAdjList, int src, int dest);
+void SLL_AdjList_delConnect(ptrSLL_AdjList currAdjList, int src, int dest);
+ptrHash createNode_Hash(int pkey, ptrCB currNode);
+void init_SLL_Hash(ptrSLL_Hash currHashTable);
+void SLL_Hash_insertTail(ptrSLL_Hash currHashTable, int pkey, ptrCB currNode);
+ptrCB SLL_Hash_getNodeCB(ptrSLL_Hash currHashTable, int pkey);
+void insertContact(ptrSLL_CB contactList, ptrSLL_AdjList connectionList, ptrSLL_Hash idxKey);
+void delContact(ptrSLL_CB contactList, ptrSLL_AdjList connectionList, ptrSLL_Hash idxKey);
+void displayContacts(ptrSLL_CB contactList);
+void sortContactByName(ptrSLL_CB contactList);
+void searchByName(ptrSLL_CB contactList);
+void handlingEditContact(ptrSLL_CB contactList, int choice, int pkey, ptrSLL_Hash idxKey);
+void editContact(ptrSLL_CB contactList, ptrSLL_Hash idxKey);
+ptrCB handlingMergeSort(ptrCB _1node, ptrCB _2node, bool isAsc);
+ptrCB mid_SLL_CB(ptrCB head);
+ptrCB mergeSortName(ptrCB head, bool isAsc);
+ptrCB binarySearchName(ptrSLL_CB contactList, char nama[]);
+void insertConnection(ptrSLL_CB contactList, ptrSLL_AdjList connectionList, ptrSLL_Hash idxKey);
+void delConnection(ptrSLL_CB contactList, ptrSLL_AdjList connectionList, ptrSLL_Hash idxKey);
+void displayConnection(ptrSLL_AdjList connectionList, ptrSLL_Hash idxKey);
+void gotoxy(short x, short y);
+// End Function List
 
+// Main Program
+void main()
+{
+	// Init Contact Book
+	ptrSLL_CB contactList = (ptrSLL_CB)malloc(sizeof(struct SLL_CB));
+	init_SLL_CB(contactList);
+
+	// Init Adjlist Connection List
+	ptrSLL_AdjList connectionList = (ptrSLL_AdjList)malloc(sizeof(struct SLL_AdjList));
+	init_SLL_AdjList(connectionList);
+
+	// Init Hash Table
+	ptrSLL_Hash idxKey = (ptrSLL_Hash)malloc(sizeof(struct SLL_Hash));
+	init_SLL_Hash(idxKey);
+
+	// Kontak Tersimpan
+	ptrCB _1 = createNode_CB("M Rayhan F", 19, 'L', "08225562****", "222212766@stis.ac.id");
+	ptrCB _2 = createNode_CB("M Nabil Fawwaz", 19, 'L', "08237727****", " ");
+	ptrCB _3 = createNode_CB("Muh Nur Afrizal", 20, 'L', "08232704****", " ");
+
+	// Insert Kontak Tersimpan
+	SLL_CB_insert(contactList, _1, connectionList, idxKey);
+	SLL_CB_insert(contactList, _2, connectionList, idxKey);
+	SLL_CB_insert(contactList, _3, connectionList, idxKey);
+
+	// Cari pkey
+	int k1 = searchPkey(contactList, "M Rayhan F");
+	int k2 = searchPkey(contactList, "M Nabil Fawwaz");
+	int k3 = searchPkey(contactList, "Muh. Nur Afrizal");
+
+	// Insert koneksi
+	SLL_AdjList_insertConnect(connectionList, k1, k3);
+	SLL_AdjList_insertConnect(connectionList, k1, k2);
+	SLL_AdjList_insertConnect(connectionList, k3, k1);
+	SLL_AdjList_insertConnect(connectionList, k2, k3);
+
+	bool isRunning = true;
+	int choice;
+
+	system("cls");
+	contactList->head = mergeSortName(contactList->head, true);
+	while (isRunning)
+	{
+		printf("==================================================\n");
+		printf("%-14sContact Book by Rayhan%14s\n", "=", "=");
+		printf("==================================================\n");
+		printf("= 1. Tambah Kontak %31s\n", "=");
+		printf("= 2. Hapus Kontak %32s\n", "=");
+		printf("= 3. Tampilkan Kontak %28s\n", "=");
+		printf("= 4. Urutkan Kontak %30s\n", "=");
+		printf("= 5. Cari Kontak %33s\n", "=");
+		printf("= 6. Edit Kontak %33s\n", "=");
+		printf("= 7. Pencarian Wildcard %26s\n", "=");
+		printf("= 8. Statistik Umur %30s\n", "=");
+		printf("= 9. Tambah Koneksi %30s\n", "=");
+		printf("= 10. Hapus Koneksi %30s\n", "=");
+		printf("= 11. Tampilkan Koneksi %26s\n", "=");
+		printf("= 12. Keluar %38s\n", "=");
+		printf("==================================================\n");
+		printf("= Pilihan: %39s\n", "=");
+		printf("==================================================\n");
+
+		gotoxy(12, 13);
+		scanf("%d", &choice);
+		getchar();
+		while (choice < 1 || choice > 12)
+		{
+			gotoxy(12, 13);
+			printf(" ");
+			gotoxy(12, 13);
+			scanf("%d", &choice);
+			getchar();
+		}
+
+		system("cls");
+		if (choice == 12)
+		{
+			isRunning = false;
+			printf("Terima kasih telah menggunakan program ini!\n");
+			break;
+		}
+
+		switch (choice)
+		{
+		case 1:
+			insertContact(contactList, connectionList, idxKey);
+			break;
+		case 2:
+			delContact(contactList, connectionList, idxKey);
+			break;
+		case 3:
+			displayContacts(contactList);
+			break;
+		case 4:
+			sortContactByName(contactList);
+			break;
+		case 5:
+			searchByName(contactList);
+			break;
+		case 6:
+			editContact(contactList, idxKey);
+			break;
+		case 7:
+			wildcardSearch(contactList);
+			break;
+		case 8:
+			statisticAge(contactList);
+			break;
+		case 9:
+			insertConnection(contactList, connectionList, idxKey);
+			break;
+		case 10:
+			delConnection(contactList, connectionList, idxKey);
+			break;
+		case 11:
+			displayConnection(connectionList, idxKey);
+			break;
+		default:
+			printf("Pilihan tidak tersedia!\n");
+		}
+	}
+}
+
+// Contact Book
+// Node Contact Book
 /**
  * Membuat node baru untuk Contact Book.
  *
@@ -125,15 +288,14 @@ ptrCB createNode_CB(char nama[], unsigned umur, char jk, char noTelp[], char ema
  */
 void printNode_CB(ptrCB currNode)
 {
-	printf("= Nama            : %-26s=\n", currNode->name);
-	printf("= Umur            : %-26u=\n", currNode->age);
-	printf("= Jenis Kelamin   : %-26c=\n", currNode->sex);
-	printf("= Nomor Telepon   : %-26s=\n", currNode->telpNo);
-	printf("= Alamat Email    : %-26s=\n", currNode->email);
+	printf("= Nama            : %-29s=\n", currNode->name);
+	printf("= Umur            : %-29u=\n", currNode->age);
+	printf("= Jenis Kelamin   : %-29c=\n", currNode->sex);
+	printf("= Nomor Telepon   : %-29s=\n", currNode->telpNo);
+	printf("= Alamat Email    : %-29s=\n", currNode->email);
 }
 
-// A2. SLL Contact Book
-
+// SLL Contact Book
 /**
  * Inisialisasi linked list contact book.
  *
@@ -286,9 +448,8 @@ void SLL_CB_delName(ptrSLL_CB currList, char nama[])
 	}
 }
 
-// B. Koneksi
-// B1. Node Koneksi
-
+// Koneksi
+// Node Koneksi
 /**
  * Membuat dan menginisialisasi node baru untuk contact book.
  *
@@ -305,8 +466,7 @@ ptrConnect createNode_Conn(int pkey)
 	return tempNode;
 }
 
-// B2. SLL Koneksi
-
+// SLL Koneksi
 /**
  * Inisialisasi linked list koneksi.
  *
@@ -454,9 +614,8 @@ void SLL_Conn_delPkey(ptrSLL_Conn currList, int pkey)
 	}
 }
 
-// C. Adjacency List
-// C1. Node Adjacency List
-
+// Adjacency List
+// Node Adjacency List
 /**
  * Inisialisasi node dalam adjacency list.
  *
@@ -487,8 +646,7 @@ ptrAdjList createNode_Adjlist(int src)
 	return tempAdjlist;
 }
 
-// C2. SLL Adjacency List
-
+// SLL Adjacency List
 /**
  * Fungsi ini digunakan untuk menginisialisasi linked list adjacency list.
  *
@@ -528,6 +686,37 @@ void SLL_AdjList_insertTail(ptrSLL_AdjList currAdjList, int src)
 }
 
 /**
+ * Memeriksa apakah terdapat koneksi antara dua simpul dalam daftar adjacency list.
+ *
+ * @param currAdjList Pointer ke daftar adjacency list.
+ * @param src Indeks simpul sumber.
+ * @param dest Indeks simpul tujuan.
+ * @return true jika terdapat koneksi antara src dan dest, false jika tidak.
+ */
+bool SLL_AdjList_checkConnection(ptrSLL_AdjList currAdjList, int src, int dest)
+{
+	ptrAdjList cursor = currAdjList->head;
+
+	while (cursor != NULL)
+	{
+		if (cursor->datalist->head->pkey == src)
+		{
+			ptrConnect cursor2 = cursor->datalist->head;
+
+			while (cursor2 != NULL)
+			{
+				if (cursor2->pkey == dest)
+					return true;
+				cursor2 = cursor2->next;
+			}
+		}
+		cursor = cursor->next;
+	}
+
+	return false;
+}
+
+/**
  * Menyisipkan koneksi baru antara dua node pada SLL adjacency list.
  *
  * @param currAdjList Pointer ke SLL adjacency list.
@@ -561,9 +750,8 @@ void SLL_AdjList_delConnect(ptrSLL_AdjList currAdjList, int src, int dest)
 	SLL_Conn_delPkey(cursor->datalist, dest);
 }
 
-// D. Hash Table
-// D1. Node Hash Table
-
+// Hash Table
+// Node Hash Table
 /**
  * Membuat node baru untuk hash table.
  *
@@ -591,8 +779,7 @@ ptrHash createNode_Hash(int pkey, ptrCB currNode)
 	return temp;
 }
 
-// D2. SLL Hash Table
-
+// SLL Hash Table
 /**
  * Fungsi ini digunakan untuk menginisialisasi linked list hash table.
  *
@@ -648,8 +835,7 @@ ptrCB SLL_Hash_getNodeCB(ptrSLL_Hash currHashTable, int pkey)
 	return NULL;
 }
 
-// 3. Menu
-
+// Insert Contact
 /**
  * Fungsi ini digunakan untuk memasukkan data kontak ke dalam daftar kontak.
  *
@@ -686,11 +872,12 @@ void insertContact(ptrSLL_CB contactList, ptrSLL_AdjList connectionList, ptrSLL_
 	sleep(1);
 	system("cls");
 	printf("Data berhasil ditambahkan!\n\n");
-	printf("Tekan untuk melanjutkan...");
+	printf("Enter untuk melanjutkan...");
 	getchar();
 	system("cls");
 }
 
+// Delete Contact
 /**
  * Fungsi untuk menghapus kontak dari daftar kontak.
  *
@@ -717,15 +904,16 @@ void delContact(ptrSLL_CB contactList, ptrSLL_AdjList connectionList, ptrSLL_Has
 		printf("Data tidak ditemukan, tidak ada yang dihapus!\n");
 	else
 	{
-		SLL_CB_deleteName(contactList, temp->name);
+		SLL_CB_delName(contactList, temp->name);
 		printf("Data Berhasil dihapus!\n");
 	}
 
-	printf("\nTekan untuk melanjutkan...");
+	printf("\nEnter untuk melanjutkan...");
 	getchar();
 	system("cls");
 }
 
+// Display Contact
 /**
  * Menampilkan daftar kontak.
  *
@@ -734,6 +922,7 @@ void delContact(ptrSLL_CB contactList, ptrSLL_AdjList connectionList, ptrSLL_Has
 void displayContacts(ptrSLL_CB contactList)
 {
 	ptrCB cursor = contactList->head;
+	int counter = 0;
 
 	printf("==================================================\n");
 	printf("%-18sDaftar Kontak%18s\n", "=", "=");
@@ -744,15 +933,38 @@ void displayContacts(ptrSLL_CB contactList)
 	{
 		printf("==================================================\n");
 		printNode_CB(cursor);
+		counter++;
 		cursor = cursor->next;
+
+		if (counter == 5)
+		{
+			printf("==================================================\n\n");
+			printf("Enter untuk melanjutkan...");
+			getchar();
+			getchar();
+			system("cls");
+
+			printf("==================================================\n");
+			printf("%-18sDaftar Kontak%18s\n", "=", "=");
+			printf("==================================================\n");
+			printf("= Jumlah kontak: %-32d=\n", contactList->size);
+			counter = 0;
+		}
 	}
 
 	printf("==================================================\n\n");
-	printf("Tekan untuk melanjutkan...");
-	getchar();
+	printf("Enter untuk melanjutkan...");
+	if (counter == 5)
+	{
+		getchar();
+		getchar();
+	}
+	else
+		getchar();
 	system("cls");
 }
 
+// Sort Contact by Name
 /**
  * Mengurutkan daftar kontak berdasarkan nama.
  *
@@ -792,11 +1004,12 @@ void sortContactByName(ptrSLL_CB contactList)
 	else
 		printf("Kontak berhasil diurutkan secara descending berdasarkan nama.\n");
 
-	printf("\nTekan untuk melanjutkan...");
+	printf("\nEnter untuk melanjutkan...");
 	getchar();
 	system("cls");
 }
 
+// Search Contact by Name
 /**
  * Fungsi ini digunakan untuk mencari kontak berdasarkan nama pada linked list.
  *
@@ -832,11 +1045,12 @@ void searchByName(ptrSLL_CB contactList)
 		printf("Data tidak ditemukan!\n");
 
 	printf("==================================================\n\n");
-	printf("Tekan untuk melanjutkan...");
+	printf("Enter untuk melanjutkan...");
 	getchar();
 	system("cls");
 }
 
+// Edit Contact
 /**
  * Dipanggil ketika fungsi editContact dieksekusi.
  * Dalam fungsi ini diperlukan input dari user untuk mengubah data kontak berdasar choice yang telah user berikan pada fungsi editContact.
@@ -945,12 +1159,10 @@ void editContact(ptrSLL_CB contactList, ptrSLL_Hash idxKey)
 		printf("Data tidak ditemukan!\n");
 
 	printf("==================================================\n\n");
-	printf("Tekan untuk melanjutkan...");
+	printf("Enter untuk melanjutkan...");
 	getchar();
 	system("cls");
 }
-
-// 4. Sort and Search
 
 // Merge Sort by Name
 /**
@@ -1123,7 +1335,7 @@ ptrCB binarySearchName(ptrSLL_CB contactList, char nama[])
 	return NULL;
 }
 
-// 5. Wildcard Search
+// Wildcard Search
 /**
  * Fungsi ini digunakan untuk memeriksa apakah string 'nama' cocok dengan pola 'pattern'.
  *
@@ -1194,12 +1406,10 @@ void wildcardSearch(ptrSLL_CB contactList)
 	}
 
 	printf("==================================================\n");
-	printf("\nTekan untuk melanjutkan...");
+	printf("\nEnter untuk melanjutkan...");
 	getchar();
 	system("cls");
 }
-
-// 6. Lainnya
 
 // Cari Primary Key
 /**
@@ -1218,6 +1428,173 @@ int searchPkey(ptrSLL_CB contactList, char nama[])
 		return temp->pkey;
 	else
 		return -1;
+}
+
+// Insert Connection
+/**
+ * Fungsi ini digunakan untuk memasukkan koneksi antara dua simpul pada daftar koneksi.
+ *
+ * @param contactList Pointer ke daftar simpul kontak.
+ * @param connectionList Pointer ke daftar koneksi antara simpul-simpul.
+ * @param idxKey Pointer ke daftar hash indeks kunci.
+ */
+void insertConnection(ptrSLL_CB contactList, ptrSLL_AdjList connectionList, ptrSLL_Hash idxKey)
+{
+	char src[20];
+	char dest[20];
+	int i = 0, n = 0;
+
+	printf("==================================================\n");
+	printf("%-18sTambah Koneksi%18s\n", "=", "=");
+	printf("==================================================\n");
+
+	printf("Banyak koneksi yang ingin dimasukkan: ");
+	scanf("%d", &n);
+
+	for (i = 0; i < n; i++)
+	{
+		printf("Koneksi ke-%d\n", i + 1);
+		printf("- Nama kontak sumber: ");
+		scanf(" %20[^\n]", src);
+		printf("- Nama kontak tujuan: ");
+		scanf(" %20[^\n]", dest);
+
+		ptrCB srcKey = SLL_Hash_getNodeCB(idxKey, searchPkey(contactList, src));
+		ptrCB destKey = SLL_Hash_getNodeCB(idxKey, searchPkey(contactList, dest));
+
+		if (srcKey == NULL || destKey == NULL)
+		{
+			printf("Koneksi gagal ditambahkan, pastikan data yang dimasukkan sudah tersedia!\n\n");
+			i--;
+		}
+		else
+		{
+			if (!SLL_AdjList_checkConnection(connectionList, srcKey->pkey, destKey->pkey))
+				SLL_AdjList_insertConnect(connectionList, srcKey->pkey, destKey->pkey);
+			else
+			{
+				printf("Koneksi sudah ada!\n\n");
+				i--;
+			}
+		}
+	}
+
+	sleep(1);
+	system("cls");
+	printf("Data berhasil ditambahkan!\n\n");
+	printf("Enter untuk melanjutkan...");
+	getchar();
+	system("cls");
+}
+
+// Delete Connection
+/**
+ * Fungsi ini digunakan untuk menghapus koneksi antara dua simpul pada daftar koneksi.
+ *
+ * @param contactList Pointer ke daftar simpul kontak.
+ * @param connectionList Pointer ke daftar koneksi antara simpul-simpul.
+ * @param idxKey Pointer ke daftar hash indeks kunci.
+ */
+void delConnection(ptrSLL_CB contactList, ptrSLL_AdjList connectionList, ptrSLL_Hash idxKey)
+{
+	char src[20];
+	char dest[20];
+	int i = 0, n = 0;
+
+	printf("==================================================\n");
+	printf("%-19sHapus Koneksi%18s\n", "=", "=");
+	printf("==================================================\n");
+	printf("= Nama kontak sumber: %28s\n", "=");
+	printf("==================================================\n");
+	printf("= Nama kontak tujuan: %28s\n", "=");
+	printf("==================================================\n");
+
+	getchar();
+	gotoxy(22, 3);
+	scanf(" %20[^\n]", src);
+
+	gotoxy(22, 5);
+	scanf(" %20[^\n]", dest);
+
+	contactList->head = mergeSortName(contactList->head, true);
+	ptrCB nodeSrc = binarySearchName(contactList, src);
+	ptrCB nodeDest = binarySearchName(contactList, dest);
+
+	sleep(1);
+	if (nodeSrc == NULL || nodeDest == NULL)
+		printf("Data tidak ditemukan, tidak ada yang dihapus!\n");
+	else
+	{
+		SLL_AdjList_delConnect(connectionList, nodeSrc->pkey, nodeDest->pkey);
+		printf("Koneksi berhasil dihapus!\n");
+	}
+
+	printf("==================================================\n\n");
+	printf("Enter untuk melanjutkan...");
+	getchar();
+	system("cls");
+}
+
+// Display Connection
+void displayConnection(ptrSLL_AdjList connectionList, ptrSLL_Hash idxKey)
+{
+	printf("==================================================\n");
+	printf("%-18sDaftar Koneksi%18s\n", "=", "=");
+	printf("==================================================\n");
+
+	if (connectionList->size == 0)
+		printf("Koneksi kosong!\n");
+	else
+	{
+		ptrAdjList cursor = connectionList->head;
+		ptrConnect cursor2 = cursor->datalist->head;
+		int counter = 0;
+
+		while (cursor != NULL)
+		{
+			printf("%-30s: ", SLL_Hash_getNodeCB(idxKey, cursor2->pkey)->name);
+			cursor2 = cursor2->next;
+
+			while (cursor2 != NULL)
+			{
+				printf("(%s) ", SLL_Hash_getNodeCB(idxKey, cursor2->pkey)->name);
+				cursor2 = cursor2->next;
+			}
+			printf("\n");
+
+			counter++;
+			cursor = cursor->next;
+			if (cursor != NULL)
+			{
+				cursor2 = cursor->datalist->head;
+
+				if (counter == 10)
+				{
+					printf("==================================================\n\n");
+					printf("Enter untuk melanjutkan...");
+					getchar();
+					getchar();
+					system("cls");
+
+					printf("==================================================\n");
+					printf("%-18sDaftar Koneksi%18s\n", "=", "=");
+					printf("==================================================\n");
+					counter = 0;
+				}
+			}
+		}
+
+		printf("==================================================\n\n");
+		printf("Enter untuk melanjutkan...");
+		if (counter == 10)
+		{
+			getchar();
+			getchar();
+		}
+		else
+			getchar();
+		system("cls");
+	}
 }
 
 // Umur Minimum
@@ -1326,7 +1703,14 @@ void ageStatistics(ptrSLL_CB contactList)
 	}
 
 	printf("==================================================\n\n");
-	printf("Tekan untuk melanjutkan...");
+	printf("Enter untuk melanjutkan...");
 	getchar();
 	system("cls");
+}
+
+// GotoXY Function
+void gotoxy(short x, short y)
+{
+	COORD pos = {x, y};
+	SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), pos);
 }
