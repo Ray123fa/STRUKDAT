@@ -768,19 +768,19 @@ void sortContactByName(ptrSLL_CB contactList)
 	printf("= 1. Ascending  (A to Z) %-24s=\n", " ");
 	printf("= 2. Descending (Z to A) %-24s=\n", " ");
 	printf("==================================================\n");
-	printf("= Pilihan :                                      =\n");
+	printf("= Pilihan: %39s\n", "=");
 	printf("==================================================\n");
 
 	getchar();
-	gotoxy(12, 6);
+	gotoxy(11, 6);
 	scanf("%d", &choose);
 
 	getchar();
 	while (choose != 1 && choose != 2)
 	{
-		gotoxy(12, 6);
+		gotoxy(11, 6);
 		printf(" ");
-		gotoxy(12, 6);
+		gotoxy(11, 6);
 		scanf("%d", &choose);
 		getchar();
 	}
@@ -809,7 +809,7 @@ void searchByName(ptrSLL_CB contactList)
 	printf("==================================================\n");
 	printf("%-20sCari Kontak%19s\n", "=", "=");
 	printf("==================================================\n");
-	printf("= Masukkan nama:                                 =\n");
+	printf("= Masukkan nama: %33s\n", "=");
 	printf("==================================================\n");
 
 	getchar();
@@ -1121,4 +1121,80 @@ ptrCB binarySearchName(ptrSLL_CB contactList, char nama[])
 	} while (last == NULL || last != start);
 
 	return NULL;
+}
+
+// 5. Wildcard Search
+/**
+ * Fungsi ini digunakan untuk memeriksa apakah string 'nama' cocok dengan pola 'pattern'.
+ *
+ * @param pattern Pola yang akan dibandingkan dengan string 'nama'.
+ * @param nama String yang akan dibandingkan dengan pola 'pattern'.
+ * @return true jika string 'nama' cocok dengan pola 'pattern', false jika tidak cocok.
+ */
+bool isMatch(const char *pattern, const char *nama)
+{
+	if (*pattern == '\0')
+		return *nama == '\0';
+
+	if (*pattern == '?' || *pattern == *nama)
+		return *nama != '\0' && isMatch(pattern + 1, nama + 1);
+
+	if (*pattern == '*')
+		return isMatch(pattern + 1, nama) || (*nama != '\0' && isMatch(pattern, nama + 1));
+
+	return false;
+}
+
+/**
+ * Fungsi untuk melakukan pencarian dengan menggunakan wildcard pada daftar kontak.
+ *
+ * @param contactList Pointer ke linked list yang berisi daftar kontak.
+ */
+void wildcardSearch(ptrSLL_CB contactList)
+{
+	char pattern[30];
+
+	printf("==================================================\n");
+	printf("%-18sWildcard Search%17s\n", "=", "=");
+	printf("==================================================\n");
+	printf("= Petunjuk: %38s\n", "=");
+	printf("= '*' merepresentasikan 0 atau lebih karakter.   =\n");
+	printf("= '?' merepresentasikan 1 karakter.              =\n");
+	printf("= Contoh: %40s\n", "=");
+	printf("= > Pola: Ray* %35s\n", "=");
+	printf("= > Kontak yang mungkin: %25s\n", "=");
+	printf("=   > Rayhan %37s\n", "=");
+	printf("==================================================\n");
+	printf("= Masukkan pola: %33s\n", "=");
+	printf("==================================================\n");
+
+	getchar();
+	gotoxy(17, 11);
+	scanf(" %30[^\n]", pattern);
+
+	ptrCB cursor = contactList->head;
+
+	sleep(1);
+	printf("==================================================\n");
+	printf("%-20s H A S I L %19s\n", "=", "=");
+	printf("==================================================\n");
+
+	if (cursor == NULL)
+		printf("Kontak kosong!\n");
+	else
+	{
+		while (cursor != NULL)
+		{
+			if (isMatch(pattern, cursor->name))
+			{
+				printNode_CB(cursor);
+				printf("==================================================\n");
+			}
+			cursor = cursor->next;
+		}
+	}
+
+	printf("\nTekan untuk melanjutkan...");
+	getchar();
+	system("cls");
 }
