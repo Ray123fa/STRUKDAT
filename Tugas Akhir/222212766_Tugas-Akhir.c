@@ -3,11 +3,11 @@
 // 2KS1
 
 #include <windows.h> // to call COORD
-#include <unistd.h>	 // to call sleep()
 #include <stdio.h>
 #include <stdlib.h>	 // to call malloc()
 #include <stdbool.h> // to call bool
 #include <string.h>	 // to call strcpy()
+#include <unistd.h>	 // to call sleep()
 
 // Deklarasi Primary Key
 static int pkey = 1;
@@ -19,11 +19,11 @@ static int pkey = 1;
 struct node_CB
 {
 	int pkey;
-	char name[30];
+	char name[26];
 	int age;
 	char sex;
-	char telpNo[13];
-	char email[40];
+	char telpNo[14];
+	char email[21];
 	struct node_CB *next;
 };
 typedef struct node_CB *ptrCB;
@@ -98,11 +98,14 @@ void SLL_CB_insert(ptrSLL_CB currList, ptrCB currNode, ptrSLL_AdjList currAdjLis
 void SLL_CB_delHead(ptrSLL_CB currList);
 void SLL_CB_delTail(ptrSLL_CB currList);
 void SLL_CB_delName(ptrSLL_CB currList, char nama[]);
+
 void init_SLL_Connect(ptrSLL_Conn tmpList);
+ptrConnect createNode_Conn(int pkey);
 void SLL_Conn_insertTail(ptrSLL_Conn currList, int pkey);
 void SLL_Conn_delHead(ptrSLL_Conn currList);
 void SLL_Conn_delTail(ptrSLL_Conn currList);
 void SLL_Conn_delPkey(ptrSLL_Conn currList, int pkey);
+
 void init_nodeAdjList(ptrAdjList currAdjListNode);
 ptrAdjList createNode_Adjlist(int src);
 void init_SLL_AdjList(ptrSLL_AdjList currAdjList);
@@ -110,10 +113,12 @@ void SLL_AdjList_insertTail(ptrSLL_AdjList currAdjList, int src);
 bool SLL_AdjList_checkConnection(ptrSLL_AdjList currAdjList, int src, int dest);
 void SLL_AdjList_insertConnect(ptrSLL_AdjList currAdjList, int src, int dest);
 void SLL_AdjList_delConnect(ptrSLL_AdjList currAdjList, int src, int dest);
+
 ptrHash createNode_Hash(int pkey, ptrCB currNode);
 void init_SLL_Hash(ptrSLL_Hash currHashTable);
 void SLL_Hash_insertTail(ptrSLL_Hash currHashTable, int pkey, ptrCB currNode);
-ptrCB SLL_Hash_getNodeCB(ptrSLL_Hash currHashTable, int pkey);
+ptrCB SLL_Hash_getData(ptrSLL_Hash currHashTable, int pkey);
+
 void insertContact(ptrSLL_CB contactList, ptrSLL_AdjList connectionList, ptrSLL_Hash idxKey);
 void delContact(ptrSLL_CB contactList, ptrSLL_AdjList connectionList, ptrSLL_Hash idxKey);
 void displayContacts(ptrSLL_CB contactList);
@@ -121,14 +126,32 @@ void sortContactByName(ptrSLL_CB contactList);
 void searchByName(ptrSLL_CB contactList);
 void handlingEditContact(ptrSLL_CB contactList, int choice, int pkey, ptrSLL_Hash idxKey);
 void editContact(ptrSLL_CB contactList, ptrSLL_Hash idxKey);
+
 ptrCB handlingMergeSort(ptrCB _1node, ptrCB _2node, bool isAsc);
 ptrCB mid_SLL_CB(ptrCB head);
 ptrCB mergeSortName(ptrCB head, bool isAsc);
+
+ptrCB middle(ptrCB start, ptrCB last);
 ptrCB binarySearchName(ptrSLL_CB contactList, char nama[]);
+
 void insertConnection(ptrSLL_CB contactList, ptrSLL_AdjList connectionList, ptrSLL_Hash idxKey);
 void delConnection(ptrSLL_CB contactList, ptrSLL_AdjList connectionList, ptrSLL_Hash idxKey);
 void displayConnection(ptrSLL_AdjList connectionList, ptrSLL_Hash idxKey);
+
+bool isMatch(const char *pattern, const char *nama);
+int countMatch(ptrSLL_CB contactList, char nama[]);
+void wildcardSearch(ptrSLL_CB contactList);
+
+int searchPkey(ptrSLL_CB contactList, char nama[]);
+
+unsigned minAge(ptrSLL_CB contactList);
+unsigned maxAge(ptrSLL_CB contactList);
+float avgAge(ptrSLL_CB contactList);
+void ageStatistics(ptrSLL_CB contactList);
+
 void gotoxy(short x, short y);
+char toUpperCase(char *str);
+void pagesInfo(int size, int divisor, int currentPage);
 // End Function List
 
 // Main Program
@@ -147,25 +170,35 @@ void main()
 	init_SLL_Hash(idxKey);
 
 	// Kontak Tersimpan
-	ptrCB _1 = createNode_CB("M Rayhan F", 19, 'L', "08225562****", "222212766@stis.ac.id");
-	ptrCB _2 = createNode_CB("M Nabil Fawwaz", 19, 'L', "08237727****", " ");
-	ptrCB _3 = createNode_CB("Muh Nur Afrizal", 20, 'L', "08232704****", " ");
+	ptrCB _1 = createNode_CB("M RAYHAN F", 19, 'L', "08225562****", "222212766@stis.ac.id");
+	ptrCB _2 = createNode_CB("M NABIL FAWWAZ", 19, 'L', "08237727****", " ");
+	ptrCB _3 = createNode_CB("MUH NUR AFRIZAL", 20, 'L', "08232704****", " ");
+	ptrCB _4 = createNode_CB("MUHAMMAD", 18, 'L', "08524877****", " ");
+	ptrCB _5 = createNode_CB("AHMAD", 17, 'L', "08235729****", " ");
 
 	// Insert Kontak Tersimpan
 	SLL_CB_insert(contactList, _1, connectionList, idxKey);
 	SLL_CB_insert(contactList, _2, connectionList, idxKey);
 	SLL_CB_insert(contactList, _3, connectionList, idxKey);
+	SLL_CB_insert(contactList, _4, connectionList, idxKey);
+	SLL_CB_insert(contactList, _5, connectionList, idxKey);
 
 	// Cari pkey
-	int k1 = searchPkey(contactList, "M Rayhan F");
-	int k2 = searchPkey(contactList, "M Nabil Fawwaz");
-	int k3 = searchPkey(contactList, "Muh. Nur Afrizal");
+	int k1 = searchPkey(contactList, "M RAYHAN F");
+	int k2 = searchPkey(contactList, "M NABIL FAWWAZ");
+	int k3 = searchPkey(contactList, "MUH NUR AFRIZAL");
+	int k4 = searchPkey(contactList, "MUHAMMAD");
+	int k5 = searchPkey(contactList, "AHMAD");
 
 	// Insert koneksi
 	SLL_AdjList_insertConnect(connectionList, k1, k3);
 	SLL_AdjList_insertConnect(connectionList, k1, k2);
 	SLL_AdjList_insertConnect(connectionList, k3, k1);
 	SLL_AdjList_insertConnect(connectionList, k2, k3);
+	SLL_AdjList_insertConnect(connectionList, k2, k4);
+	SLL_AdjList_insertConnect(connectionList, k4, k2);
+	SLL_AdjList_insertConnect(connectionList, k4, k5);
+	SLL_AdjList_insertConnect(connectionList, k5, k4);
 
 	bool isRunning = true;
 	int choice;
@@ -188,19 +221,19 @@ void main()
 		printf("= 9. Tambah Koneksi %30s\n", "=");
 		printf("= 10. Hapus Koneksi %30s\n", "=");
 		printf("= 11. Tampilkan Koneksi %26s\n", "=");
-		printf("= 12. Keluar %38s\n", "=");
+		printf("= 12. Keluar %37s\n", "=");
 		printf("==================================================\n");
 		printf("= Pilihan: %39s\n", "=");
 		printf("==================================================\n");
 
-		gotoxy(12, 13);
+		gotoxy(11, 16);
 		scanf("%d", &choice);
 		getchar();
 		while (choice < 1 || choice > 12)
 		{
-			gotoxy(12, 13);
-			printf(" ");
-			gotoxy(12, 13);
+			gotoxy(11, 16);
+			printf("%39s", "=");
+			gotoxy(11, 16);
 			scanf("%d", &choice);
 			getchar();
 		}
@@ -237,7 +270,7 @@ void main()
 			wildcardSearch(contactList);
 			break;
 		case 8:
-			statisticAge(contactList);
+			ageStatistics(contactList);
 			break;
 		case 9:
 			insertConnection(contactList, connectionList, idxKey);
@@ -271,9 +304,10 @@ ptrCB createNode_CB(char nama[], unsigned umur, char jk, char noTelp[], char ema
 	ptrCB tempNode = (ptrCB)malloc(sizeof(struct node_CB));
 
 	tempNode->pkey = pkey++;
+	toUpperCase(nama);
 	strcpy(tempNode->name, nama);
 	tempNode->age = umur;
-	tempNode->sex = jk;
+	tempNode->sex = toUpperCase(&jk);
 	strcpy(tempNode->telpNo, noTelp);
 	strcpy(tempNode->email, email);
 	tempNode->next = NULL;
@@ -727,8 +761,10 @@ void SLL_AdjList_insertConnect(ptrSLL_AdjList currAdjList, int src, int dest)
 {
 	ptrAdjList cursor = currAdjList->head;
 
-	while (cursor != NULL && cursor->datalist->head->pkey != src)
+	while (cursor->datalist->head != NULL && cursor->datalist->head->pkey != src)
+	{
 		cursor = cursor->next;
+	}
 
 	SLL_Conn_insertTail(cursor->datalist, dest);
 }
@@ -820,7 +856,7 @@ void SLL_Hash_insertTail(ptrSLL_Hash currHashTable, int pkey, ptrCB currNode)
 	}
 }
 
-ptrCB SLL_Hash_getNodeCB(ptrSLL_Hash currHashTable, int pkey)
+ptrCB SLL_Hash_getData(ptrSLL_Hash currHashTable, int pkey)
 {
 	ptrHash cursor = currHashTable->head;
 
@@ -855,7 +891,7 @@ void insertContact(ptrSLL_CB contactList, ptrSLL_AdjList connectionList, ptrSLL_
 	printf("%-19sTambah Kontak%18s\n", "=", "=");
 	printf("==================================================\n");
 	printf("= Nama                : ");
-	scanf(" %30[^\n]", nama);
+	scanf(" %25[^\n]", nama);
 	printf("= Umur                : ");
 	scanf("%u", &umur);
 	printf("= Jenis Kelamin [L/P] : ");
@@ -863,7 +899,7 @@ void insertContact(ptrSLL_CB contactList, ptrSLL_AdjList connectionList, ptrSLL_
 	printf("= Nomor Telepon       : ");
 	scanf(" %13s", noTelp);
 	printf("= Alamat Email        : ");
-	scanf(" %40s", email);
+	scanf(" %20s", email);
 	printf("==================================================\n");
 
 	SLL_CB_insert(contactList, createNode_CB(nama, umur, sex, noTelp, email), connectionList, idxKey);
@@ -872,7 +908,8 @@ void insertContact(ptrSLL_CB contactList, ptrSLL_AdjList connectionList, ptrSLL_
 	sleep(1);
 	system("cls");
 	printf("Data berhasil ditambahkan!\n\n");
-	printf("Enter untuk melanjutkan...");
+	printf("Enter untuk kembali ke menu...");
+	getchar();
 	getchar();
 	system("cls");
 }
@@ -893,7 +930,8 @@ void delContact(ptrSLL_CB contactList, ptrSLL_AdjList connectionList, ptrSLL_Has
 	printf("%-19sHapus Kontak%19s\n", "=", "=");
 	printf("==================================================\n");
 	printf("= Masukkan nama: ");
-	scanf(" %30[^\n]", nama);
+	scanf(" %25[^\n]", nama);
+	toUpperCase(nama);
 	printf("==================================================\n\n");
 
 	contactList->head = mergeSortName(contactList->head, true);
@@ -905,10 +943,11 @@ void delContact(ptrSLL_CB contactList, ptrSLL_AdjList connectionList, ptrSLL_Has
 	else
 	{
 		SLL_CB_delName(contactList, temp->name);
-		printf("Data Berhasil dihapus!\n");
+		printf("Data berhasil dihapus!\n");
 	}
 
-	printf("\nEnter untuk melanjutkan...");
+	printf("\nEnter untuk kembali ke menu...");
+	getchar();
 	getchar();
 	system("cls");
 }
@@ -929,6 +968,10 @@ void displayContacts(ptrSLL_CB contactList)
 	printf("==================================================\n");
 	printf("= Jumlah kontak: %-32d=\n", contactList->size);
 
+	int divisor = 5;
+	int currentPage = 1;
+	pagesInfo(contactList->size, divisor, currentPage);
+
 	while (cursor != NULL)
 	{
 		printf("==================================================\n");
@@ -936,11 +979,10 @@ void displayContacts(ptrSLL_CB contactList)
 		counter++;
 		cursor = cursor->next;
 
-		if (counter == 5)
+		if (counter == divisor && cursor != NULL)
 		{
 			printf("==================================================\n\n");
 			printf("Enter untuk melanjutkan...");
-			getchar();
 			getchar();
 			system("cls");
 
@@ -949,18 +991,14 @@ void displayContacts(ptrSLL_CB contactList)
 			printf("==================================================\n");
 			printf("= Jumlah kontak: %-32d=\n", contactList->size);
 			counter = 0;
+
+			pagesInfo(contactList->size, divisor, ++currentPage);
 		}
 	}
 
 	printf("==================================================\n\n");
-	printf("Enter untuk melanjutkan...");
-	if (counter == 5)
-	{
-		getchar();
-		getchar();
-	}
-	else
-		getchar();
+	printf("Enter untuk kembali ke menu...");
+	getchar();
 	system("cls");
 }
 
@@ -972,7 +1010,7 @@ void displayContacts(ptrSLL_CB contactList)
  */
 void sortContactByName(ptrSLL_CB contactList)
 {
-	int choose;
+	int choice;
 
 	printf("==================================================\n");
 	printf("%-18sUrutkan Kontak%18s\n", "=", "=");
@@ -983,28 +1021,28 @@ void sortContactByName(ptrSLL_CB contactList)
 	printf("= Pilihan: %39s\n", "=");
 	printf("==================================================\n");
 
-	getchar();
 	gotoxy(11, 6);
-	scanf("%d", &choose);
-
+	scanf("%d", &choice);
 	getchar();
-	while (choose != 1 && choose != 2)
+
+	while (choice != 1 && choice != 2)
 	{
 		gotoxy(11, 6);
-		printf(" ");
+		printf("%39s", "=");
 		gotoxy(11, 6);
-		scanf("%d", &choose);
+		scanf("%d", &choice);
 		getchar();
 	}
-	contactList->head = mergeSortName(contactList->head, (bool)(2 - choose));
+	contactList->head = mergeSortName(contactList->head, (bool)(2 - choice));
 
 	printf("==================================================\n\n");
-	if (choose == 1)
+	sleep(1);
+	if (choice == 1)
 		printf("Kontak berhasil diurutkan secara ascending berdasarkan nama.\n");
 	else
 		printf("Kontak berhasil diurutkan secara descending berdasarkan nama.\n");
 
-	printf("\nEnter untuk melanjutkan...");
+	printf("\nEnter untuk kembali ke menu...");
 	getchar();
 	system("cls");
 }
@@ -1025,16 +1063,17 @@ void searchByName(ptrSLL_CB contactList)
 	printf("= Masukkan nama: %33s\n", "=");
 	printf("==================================================\n");
 
-	getchar();
 	gotoxy(17, 3);
-	scanf(" %30[^\n]", nama);
+	scanf(" %25[^\n]", nama);
+	toUpperCase(nama);
+	printf("==================================================\n");
+	getchar();
 
 	contactList->head = mergeSortName(contactList->head, true);
 	ptrCB temp = binarySearchName(contactList, nama);
 
 	sleep(1);
 	system("cls");
-
 	printf("==================================================\n");
 	printf("%-20s H A S I L %19s\n", "=", "=");
 	printf("==================================================\n");
@@ -1045,7 +1084,7 @@ void searchByName(ptrSLL_CB contactList)
 		printf("Data tidak ditemukan!\n");
 
 	printf("==================================================\n\n");
-	printf("Enter untuk melanjutkan...");
+	printf("Enter untuk kembali ke menu...");
 	getchar();
 	system("cls");
 }
@@ -1074,34 +1113,34 @@ void handlingEditContact(ptrSLL_CB contactList, int choice, int pkey, ptrSLL_Has
 	switch (choice)
 	{
 	case 1:
-		scanf(" %30[^\n]", input);
-
+		scanf(" %25[^\n]", input);
+		toUpperCase(input);
 		strcpy(cursor->name, input);
-		strcpy(SLL_Hash_getNodeCB(idxKey, pkey)->name, input);
+		strcpy(SLL_Hash_getData(idxKey, pkey)->name, input);
 		break;
 	case 2:
 		scanf("%d", &age);
 
 		cursor->age = age;
-		SLL_Hash_getNodeCB(idxKey, pkey)->age = age;
+		SLL_Hash_getData(idxKey, pkey)->age = age;
 		break;
 	case 3:
 		scanf("%c", &sex);
 
-		cursor->sex = sex;
-		SLL_Hash_getNodeCB(idxKey, pkey)->sex = sex;
+		cursor->sex = toUpperCase(&sex);
+		SLL_Hash_getData(idxKey, pkey)->sex = sex;
 		break;
 	case 4:
 		scanf(" %13s", input);
 
 		strcpy(cursor->telpNo, input);
-		strcpy(SLL_Hash_getNodeCB(idxKey, pkey)->telpNo, input);
+		strcpy(SLL_Hash_getData(idxKey, pkey)->telpNo, input);
 		break;
 	case 5:
-		scanf(" %40s", input);
+		scanf(" %20s", input);
 
 		strcpy(cursor->email, input);
-		strcpy(SLL_Hash_getNodeCB(idxKey, pkey)->email, input);
+		strcpy(SLL_Hash_getData(idxKey, pkey)->email, input);
 	}
 }
 
@@ -1119,15 +1158,15 @@ void editContact(ptrSLL_CB contactList, ptrSLL_Hash idxKey)
 	printf("==================================================\n");
 	printf("%-20sEdit Kontak%19s\n", "=", "=");
 	printf("==================================================\n");
-	printf("= Masukkan nama: %33s", "=");
+	printf("= Masukkan nama: %33s\n", "=");
 	printf("==================================================\n\n");
 
-	getchar();
 	gotoxy(17, 3);
-	scanf(" %30[^\n]", nama);
+	scanf(" %25[^\n]", nama);
+	toUpperCase(nama);
 
+	printf("==================================================\n");
 	ptrCB temp = binarySearchName(contactList, nama);
-
 	if (temp != NULL)
 	{
 		printf("= Pilih data yang ingin diubah: %17s=\n", " ");
@@ -1137,29 +1176,34 @@ void editContact(ptrSLL_CB contactList, ptrSLL_Hash idxKey)
 		printf("= 4. Nomor Telepon %30s=\n", " ");
 		printf("= 5. Alamat Email %31s=\n", " ");
 		printf("==================================================\n");
-		printf("= Pilihan: %38s=\n", " ");
+		printf("= Pilihan: %39s\n", "=");
 		printf("==================================================\n");
 
-		gotoxy(12, 12);
+		gotoxy(11, 12);
 		scanf("%d", &choice);
 		getchar();
+
 		while (choice < 1 || choice > 5)
 		{
-			gotoxy(12, 12);
-			printf(" ");
-			gotoxy(12, 12);
+			gotoxy(11, 12);
+			printf("%39s", "=");
+			gotoxy(11, 12);
 			scanf("%d", &choice);
 			getchar();
 		}
 
 		printf("\n");
 		handlingEditContact(contactList, choice, temp->pkey, idxKey);
+		contactList->head = mergeSortName(contactList->head, true);
+
+		printf("==================================================\n\n");
+		printf("Data berhasil diubah!\n\n");
 	}
 	else
-		printf("Data tidak ditemukan!\n");
+		printf("Data tidak ditemukan!\n\n");
 
-	printf("==================================================\n\n");
-	printf("Enter untuk melanjutkan...");
+	printf("Enter untuk kembali ke menu...");
+	getchar();
 	getchar();
 	system("cls");
 }
@@ -1358,6 +1402,29 @@ bool isMatch(const char *pattern, const char *nama)
 }
 
 /**
+ * Menghitung jumlah kemunculan pola pada linked list.
+ *
+ * @param contactList Pointer ke linked list yang berisi data kontak.
+ * @param pattern Pola yang ingin dicari pada data kontak.
+ * @return Jumlah kemunculan pola pada linked list.
+ */
+int countMatch(ptrSLL_CB contactList, char pattern[])
+{
+	ptrCB cursor = contactList->head;
+	int counter = 0;
+
+	while (cursor != NULL)
+	{
+		if (isMatch(pattern, cursor->name))
+			counter++;
+
+		cursor = cursor->next;
+	}
+
+	return counter;
+}
+
+/**
  * Fungsi untuk melakukan pencarian dengan menggunakan wildcard pada daftar kontak.
  *
  * @param contactList Pointer ke linked list yang berisi daftar kontak.
@@ -1373,40 +1440,65 @@ void wildcardSearch(ptrSLL_CB contactList)
 	printf("= '*' merepresentasikan 0 atau lebih karakter.   =\n");
 	printf("= '?' merepresentasikan 1 karakter.              =\n");
 	printf("= Contoh: %40s\n", "=");
-	printf("= > Pola: Ray* %35s\n", "=");
+	printf("= > Pola: M*F %36s\n", "=");
 	printf("= > Kontak yang mungkin: %25s\n", "=");
-	printf("=   > Rayhan %37s\n", "=");
+	printf("=   > M Rayhan F %33s\n", "=");
 	printf("==================================================\n");
 	printf("= Masukkan pola: %33s\n", "=");
 	printf("==================================================\n");
 
-	getchar();
 	gotoxy(17, 11);
-	scanf(" %30[^\n]", pattern);
-
-	ptrCB cursor = contactList->head;
+	scanf(" %25[^\n]", pattern);
+	getchar();
+	toUpperCase(pattern);
+	printf("==================================================\n");
 
 	sleep(1);
+	system("cls");
 	printf("==================================================\n");
 	printf("%-20s H A S I L %19s\n", "=", "=");
 	printf("==================================================\n");
 
+	ptrCB cursor = contactList->head;
 	if (cursor == NULL)
 		printf("Kontak kosong!\n");
 	else
 	{
+		int size = countMatch(contactList, pattern);
+		int divisor = 5;
+		int currentPage = 1;
+		pagesInfo(size, divisor, currentPage);
+		printf("==================================================\n");
+
+		int counter = 0;
 		while (cursor != NULL)
 		{
 			if (isMatch(pattern, cursor->name))
 			{
 				printNode_CB(cursor);
+				printf("==================================================\n");
+				counter++;
+
+				if (counter == divisor && cursor->next != NULL)
+				{
+					printf("\nEnter untuk melanjutkan...");
+					getchar();
+					system("cls");
+
+					printf("==================================================\n");
+					printf("%-20s H A S I L %19s\n", "=", "=");
+					printf("==================================================\n");
+					counter = 0;
+
+					pagesInfo(size, divisor, ++currentPage);
+					printf("==================================================\n");
+				}
 			}
 			cursor = cursor->next;
 		}
 	}
 
-	printf("==================================================\n");
-	printf("\nEnter untuk melanjutkan...");
+	printf("\nEnter untuk kembali ke menu...");
 	getchar();
 	system("cls");
 }
@@ -1456,11 +1548,13 @@ void insertConnection(ptrSLL_CB contactList, ptrSLL_AdjList connectionList, ptrS
 		printf("Koneksi ke-%d\n", i + 1);
 		printf("- Nama kontak sumber: ");
 		scanf(" %20[^\n]", src);
+		toUpperCase(src);
 		printf("- Nama kontak tujuan: ");
 		scanf(" %20[^\n]", dest);
+		toUpperCase(dest);
 
-		ptrCB srcKey = SLL_Hash_getNodeCB(idxKey, searchPkey(contactList, src));
-		ptrCB destKey = SLL_Hash_getNodeCB(idxKey, searchPkey(contactList, dest));
+		ptrCB srcKey = SLL_Hash_getData(idxKey, searchPkey(contactList, src));
+		ptrCB destKey = SLL_Hash_getData(idxKey, searchPkey(contactList, dest));
 
 		if (srcKey == NULL || destKey == NULL)
 		{
@@ -1482,7 +1576,7 @@ void insertConnection(ptrSLL_CB contactList, ptrSLL_AdjList connectionList, ptrS
 	sleep(1);
 	system("cls");
 	printf("Data berhasil ditambahkan!\n\n");
-	printf("Enter untuk melanjutkan...");
+	printf("Enter untuk kembali ke main menu...");
 	getchar();
 	system("cls");
 }
@@ -1509,12 +1603,14 @@ void delConnection(ptrSLL_CB contactList, ptrSLL_AdjList connectionList, ptrSLL_
 	printf("= Nama kontak tujuan: %28s\n", "=");
 	printf("==================================================\n");
 
-	getchar();
 	gotoxy(22, 3);
 	scanf(" %20[^\n]", src);
+	toUpperCase(src);
 
 	gotoxy(22, 5);
 	scanf(" %20[^\n]", dest);
+	toUpperCase(dest);
+	printf("\n");
 
 	contactList->head = mergeSortName(contactList->head, true);
 	ptrCB nodeSrc = binarySearchName(contactList, src);
@@ -1530,12 +1626,19 @@ void delConnection(ptrSLL_CB contactList, ptrSLL_AdjList connectionList, ptrSLL_
 	}
 
 	printf("==================================================\n\n");
-	printf("Enter untuk melanjutkan...");
+	printf("Enter untuk kembali ke menu...");
+	getchar();
 	getchar();
 	system("cls");
 }
 
 // Display Connection
+/**
+ * Menampilkan daftar koneksi dalam buku kontak.
+ *
+ * @param connectionList Pointer ke daftar koneksi.
+ * @param idxKey Pointer ke indeks kunci.
+ */
 void displayConnection(ptrSLL_AdjList connectionList, ptrSLL_Hash idxKey)
 {
 	printf("==================================================\n");
@@ -1550,14 +1653,19 @@ void displayConnection(ptrSLL_AdjList connectionList, ptrSLL_Hash idxKey)
 		ptrConnect cursor2 = cursor->datalist->head;
 		int counter = 0;
 
+		int divisor = 10;
+		int currentPage = 1;
+		pagesInfo(connectionList->size, divisor, currentPage);
+		printf("==================================================\n");
+
 		while (cursor != NULL)
 		{
-			printf("%-30s: ", SLL_Hash_getNodeCB(idxKey, cursor2->pkey)->name);
+			printf("%-25s: ", SLL_Hash_getData(idxKey, cursor2->pkey)->name);
 			cursor2 = cursor2->next;
 
 			while (cursor2 != NULL)
 			{
-				printf("(%s) ", SLL_Hash_getNodeCB(idxKey, cursor2->pkey)->name);
+				printf("(%s) ", SLL_Hash_getData(idxKey, cursor2->pkey)->name);
 				cursor2 = cursor2->next;
 			}
 			printf("\n");
@@ -1568,11 +1676,10 @@ void displayConnection(ptrSLL_AdjList connectionList, ptrSLL_Hash idxKey)
 			{
 				cursor2 = cursor->datalist->head;
 
-				if (counter == 10)
+				if (counter == divisor)
 				{
 					printf("==================================================\n\n");
 					printf("Enter untuk melanjutkan...");
-					getchar();
 					getchar();
 					system("cls");
 
@@ -1580,19 +1687,16 @@ void displayConnection(ptrSLL_AdjList connectionList, ptrSLL_Hash idxKey)
 					printf("%-18sDaftar Koneksi%18s\n", "=", "=");
 					printf("==================================================\n");
 					counter = 0;
+
+					pagesInfo(connectionList->size, divisor, ++currentPage);
+					printf("==================================================\n");
 				}
 			}
 		}
 
 		printf("==================================================\n\n");
-		printf("Enter untuk melanjutkan...");
-		if (counter == 10)
-		{
-			getchar();
-			getchar();
-		}
-		else
-			getchar();
+		printf("Enter untuk kembali ke menu...");
+		getchar();
 		system("cls");
 	}
 }
@@ -1703,14 +1807,59 @@ void ageStatistics(ptrSLL_CB contactList)
 	}
 
 	printf("==================================================\n\n");
-	printf("Enter untuk melanjutkan...");
+	printf("Enter untuk kembali ke menu...");
 	getchar();
 	system("cls");
 }
 
 // GotoXY Function
+/**
+ * Fungsi ini digunakan untuk memindahkan kursor ke posisi yang ditentukan
+ * berdasarkan koordinat x dan y.
+ *
+ * @param x Koordinat horizontal untuk memindahkan kursor.
+ * @param y Koordinat vertikal untuk memindahkan kursor.
+ */
 void gotoxy(short x, short y)
 {
 	COORD pos = {x, y};
 	SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), pos);
+}
+
+// Convert to Uppercase
+/**
+ * Mengubah semua karakter dalam string menjadi huruf kapital.
+ *
+ * @param str Pointer ke string yang akan diubah.
+ * @return String yang telah diubah menjadi huruf kapital.
+ */
+char toUpperCase(char *str)
+{
+	int i = 0;
+
+	while (str[i] != '\0')
+	{
+		if (str[i] >= 'a' && str[i] <= 'z')
+			str[i] -= 32;
+		i++;
+	}
+
+	return *str;
+}
+
+// Pages Info
+void pagesInfo(int size, int divisor, int currentPage)
+{
+	int bykPages;
+
+	if (size > 0 && size < divisor)
+		printf("= Menampilkan halaman 1 dari 1 %19s\n", "=");
+	else if (size % divisor != 0 || size % divisor == 0)
+	{
+		if (size % divisor != 0)
+			bykPages = size / divisor + 1;
+		else
+			bykPages = size / divisor;
+		printf("= Menampilkan halaman %d dari %d %19s\n", currentPage, bykPages, "=");
+	}
 }
