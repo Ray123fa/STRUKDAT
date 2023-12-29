@@ -1848,6 +1848,13 @@ char toUpperCase(char *str)
 }
 
 // Pages Info
+/**
+ * Mengambil informasi halaman.
+ * 
+ * @param size Ukuran halaman.
+ * @param divisor Pembagi halaman.
+ * @param currentPage Halaman saat ini.
+ */
 void pagesInfo(int size, int divisor, int currentPage)
 {
 	int bykPages;
