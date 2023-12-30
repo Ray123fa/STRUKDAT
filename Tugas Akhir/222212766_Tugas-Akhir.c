@@ -152,6 +152,7 @@ void ageStatistics(ptrSLL_CB contactList);
 void gotoxy(short x, short y);
 char toUpperCase(char *str);
 void pagesInfo(int size, int divisor, int currentPage);
+void saveToCSV(ptrSLL_CB contactList, const char *filename);
 // End Function List
 
 // Main Program
@@ -221,25 +222,26 @@ void main()
 		printf("= 9. Tambah Koneksi %30s\n", "=");
 		printf("= 10. Hapus Koneksi %30s\n", "=");
 		printf("= 11. Tampilkan Koneksi %26s\n", "=");
-		printf("= 12. Keluar %37s\n", "=");
+		printf("= 12. Save to CSV %33s\n", "=");
+		printf("= 13. Keluar %37s\n", "=");
 		printf("==================================================\n");
 		printf("= Pilihan: %39s\n", "=");
 		printf("==================================================\n");
 
-		gotoxy(11, 16);
+		gotoxy(11, 17);
 		scanf("%d", &choice);
 		getchar();
-		while (choice < 1 || choice > 12)
+		while (choice < 1 || choice > 13)
 		{
-			gotoxy(11, 16);
+			gotoxy(11, 17);
 			printf("%39s", "=");
-			gotoxy(11, 16);
+			gotoxy(11, 17);
 			scanf("%d", &choice);
 			getchar();
 		}
 
 		system("cls");
-		if (choice == 12)
+		if (choice == 13)
 		{
 			isRunning = false;
 			printf("Terima kasih telah menggunakan program ini!\n");
@@ -280,6 +282,9 @@ void main()
 			break;
 		case 11:
 			displayConnection(connectionList, idxKey);
+			break;
+		case 12:
+			saveToCSV(contactList, "contactBook.csv");
 			break;
 		default:
 			printf("Pilihan tidak tersedia!\n");
@@ -1850,7 +1855,7 @@ char toUpperCase(char *str)
 // Pages Info
 /**
  * Mengambil informasi halaman.
- * 
+ *
  * @param size Ukuran halaman.
  * @param divisor Pembagi halaman.
  * @param currentPage Halaman saat ini.
@@ -1869,4 +1874,41 @@ void pagesInfo(int size, int divisor, int currentPage)
 			bykPages = size / divisor;
 		printf("= Menampilkan halaman %d dari %d %19s\n", currentPage, bykPages, "=");
 	}
+}
+
+// Save to CSV
+/**
+ * Menyimpan buku kontak ke file CSV.
+ *
+ * @param contactList Pointer ke head dari linked list kontak.
+ * @param filename Nama file CSV untuk menyimpan data kontak.
+ */
+void saveToCSV(ptrSLL_CB contactList, const char *filename)
+{
+	FILE *file = fopen(filename, "w");
+	if (file == NULL)
+	{
+		printf("Gagal membuka file!\n");
+		return;
+	}
+
+	// Tulis header kolom
+	fprintf(file, "Name, Age, Sex, Phone, Email\n");
+
+	// Tulis data kontak
+	ptrCB cursor = contactList->head;
+	while (cursor != NULL)
+	{
+		fprintf(file, "%s, %u, %c, %s, %s\n", cursor->name, cursor->age, cursor->sex, cursor->telpNo, cursor->email);
+		cursor = cursor->next;
+	}
+
+	fclose(file);
+	sleep(1);
+	system("cls");
+	printf("Buku Kontak berhasil disimpan ke %s\n", filename);
+
+	printf("\nEnter untuk kembali ke menu...");
+	getchar();
+	system("cls");
 }
