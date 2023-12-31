@@ -19,11 +19,11 @@ static int pkey = 1;
 struct node_CB
 {
 	int pkey;
-	char name[26];
+	char name[30];
 	int age;
 	char sex;
-	char telpNo[14];
-	char email[21];
+	char telpNo[15];
+	char email[25];
 	struct node_CB *next;
 };
 typedef struct node_CB *ptrCB;
@@ -153,11 +153,14 @@ void gotoxy(short x, short y);
 char toUpperCase(char *str);
 void pagesInfo(int size, int divisor, int currentPage);
 void saveToCSV(ptrSLL_CB contactList, const char *filename);
+void loadContactFromCSV(ptrSLL_CB contactList, const char *filename, ptrSLL_AdjList connectionList, ptrSLL_Hash idxKey);
 // End Function List
 
 // Main Program
 void main()
 {
+	char filename[30];
+
 	// Init Contact Book
 	ptrSLL_CB contactList = (ptrSLL_CB)malloc(sizeof(struct SLL_CB));
 	init_SLL_CB(contactList);
@@ -171,11 +174,11 @@ void main()
 	init_SLL_Hash(idxKey);
 
 	// Kontak Tersimpan
-	ptrCB _1 = createNode_CB("M RAYHAN F", 19, 'L', "08225562****", "222212766@stis.ac.id");
-	ptrCB _2 = createNode_CB("M NABIL FAWWAZ", 19, 'L', "08237727****", " ");
-	ptrCB _3 = createNode_CB("MUH NUR AFRIZAL", 20, 'L', "08232704****", " ");
-	ptrCB _4 = createNode_CB("MUHAMMAD", 18, 'L', "08524877****", " ");
-	ptrCB _5 = createNode_CB("AHMAD", 17, 'L', "08235729****", " ");
+	ptrCB _1 = createNode_CB("M RAYHAN FARIDH", 19, 'L', "08225562****", "222212766@stis.ac.id");
+	ptrCB _2 = createNode_CB("M NABIL FAWWAZ", 19, 'L', "08237727****", "222212759@stis.ac.id");
+	ptrCB _3 = createNode_CB("MUH NUR AFRIZAL", 20, 'L', "08232704****", "222212738@stis.ac.id");
+	ptrCB _4 = createNode_CB("ESRA YOSEFA", 18, 'P', "08228707****", "222212585@stis.ac.id");
+	ptrCB _5 = createNode_CB("CLOUDYA QASHWAH", 18, 'P', "08967916****", "222212550@stis.ac.id");
 
 	// Insert Kontak Tersimpan
 	SLL_CB_insert(contactList, _1, connectionList, idxKey);
@@ -185,11 +188,11 @@ void main()
 	SLL_CB_insert(contactList, _5, connectionList, idxKey);
 
 	// Cari pkey
-	int k1 = searchPkey(contactList, "M RAYHAN F");
+	int k1 = searchPkey(contactList, "M RAYHAN FARIDH");
 	int k2 = searchPkey(contactList, "M NABIL FAWWAZ");
 	int k3 = searchPkey(contactList, "MUH NUR AFRIZAL");
-	int k4 = searchPkey(contactList, "MUHAMMAD");
-	int k5 = searchPkey(contactList, "AHMAD");
+	int k4 = searchPkey(contactList, "ESRA YOSEFA");
+	int k5 = searchPkey(contactList, "CLOUDYA QASHWAH");
 
 	// Insert koneksi
 	SLL_AdjList_insertConnect(connectionList, k1, k3);
@@ -222,26 +225,27 @@ void main()
 		printf("= 9. Tambah Koneksi %30s\n", "=");
 		printf("= 10. Hapus Koneksi %30s\n", "=");
 		printf("= 11. Tampilkan Koneksi %26s\n", "=");
-		printf("= 12. Save to CSV %33s\n", "=");
-		printf("= 13. Keluar %37s\n", "=");
+		printf("= 12. Save Contact to CSV %24s\n", "=");
+		printf("= 13. Load Contact from CSV %22s\n", "=");
+		printf("= 14. Keluar %37s\n", "=");
 		printf("==================================================\n");
 		printf("= Pilihan: %39s\n", "=");
 		printf("==================================================\n");
 
-		gotoxy(11, 17);
+		gotoxy(11, 18);
 		scanf("%d", &choice);
 		getchar();
-		while (choice < 1 || choice > 13)
+		while (choice < 1 || choice > 14)
 		{
-			gotoxy(11, 17);
+			gotoxy(11, 18);
 			printf("%39s", "=");
-			gotoxy(11, 17);
+			gotoxy(11, 18);
 			scanf("%d", &choice);
 			getchar();
 		}
 
 		system("cls");
-		if (choice == 13)
+		if (choice == 14)
 		{
 			isRunning = false;
 			printf("Terima kasih telah menggunakan program ini!\n");
@@ -284,7 +288,26 @@ void main()
 			displayConnection(connectionList, idxKey);
 			break;
 		case 12:
-			saveToCSV(contactList, "contactBook.csv");
+			system("cls");
+			printf("Simpan file CSV dengan nama: \n");
+			printf("Contoh: contactBook\n");
+			gotoxy(29, 0);
+			scanf("%s", filename);
+			printf("\n");
+			strcat(filename, ".csv");
+			saveToCSV(contactList, filename);
+
+			break;
+		case 13:
+			system("cls");
+			printf("Nama file CSV untuk dimuat: \n");
+			printf("Contoh: contactBook\n");
+			gotoxy(28, 0);
+			scanf("%s", filename);
+			printf("\n");
+			strcat(filename, ".csv");
+			loadContactFromCSV(contactList, filename, connectionList, idxKey);
+
 			break;
 		default:
 			printf("Pilihan tidak tersedia!\n");
@@ -332,6 +355,7 @@ void printNode_CB(ptrCB currNode)
 	printf("= Jenis Kelamin   : %-29c=\n", currNode->sex);
 	printf("= Nomor Telepon   : %-29s=\n", currNode->telpNo);
 	printf("= Alamat Email    : %-29s=\n", currNode->email);
+	// strlen()
 }
 
 // SLL Contact Book
@@ -1889,6 +1913,10 @@ void saveToCSV(ptrSLL_CB contactList, const char *filename)
 	if (file == NULL)
 	{
 		printf("Gagal membuka file!\n");
+		printf("Enter untuk kembali ke menu...");
+		getchar();
+		getchar();
+		system("cls");
 		return;
 	}
 
@@ -1904,11 +1932,63 @@ void saveToCSV(ptrSLL_CB contactList, const char *filename)
 	}
 
 	fclose(file);
+
 	sleep(1);
 	system("cls");
-	printf("Buku Kontak berhasil disimpan ke %s\n", filename);
+	printf("Buku Kontak berhasil disimpan ke %s\n\n", filename);
+	printf("Enter untuk kembali ke menu...");
+	getchar();
+	getchar();
+	system("cls");
+}
 
-	printf("\nEnter untuk kembali ke menu...");
+// Load Contact from CSV
+/**
+ * Memuat data kontak dari file CSV.
+ *
+ * @param contactList Pointer ke head dari linked list kontak.
+ * @param filename Nama file CSV untuk memuat data kontak.
+ */
+void loadContactFromCSV(ptrSLL_CB contactList, const char *filename, ptrSLL_AdjList connectionList, ptrSLL_Hash idxKey)
+{
+	FILE *file = fopen(filename, "r");
+	if (file == NULL)
+	{
+		printf("Gagal membuka file!\n");
+		printf("\nEnter untuk kembali ke menu...");
+		getchar();
+		getchar();
+		system("cls");
+		return;
+	}
+
+	char line[512];
+	while (fgets(line, sizeof(line), file))
+	{
+		// Lewati header
+		if (strstr(line, "Name, Age, Sex, Phone, Email") != NULL)
+			continue;
+
+		char *name = strtok(line, ",");
+		toUpperCase(name);
+		int age = atoi(strtok(NULL, ", "));
+		char sex = *strtok(NULL, ", ");
+		toUpperCase(&sex);
+		char *phone = strtok(NULL, ", ");
+		char *email = strtok(NULL, ", \n");
+
+		ptrCB newContact = createNode_CB(name, age, sex, phone, email);
+		SLL_CB_insert(contactList, newContact, connectionList, idxKey);
+		contactList->head = mergeSortName(contactList->head, true);
+	}
+
+	fclose(file);
+
+	sleep(1);
+	system("cls");
+	printf("File %s berhasil dimuat!\n\n", filename);
+	printf("Enter untuk kembali ke menu...");
+	getchar();
 	getchar();
 	system("cls");
 }
