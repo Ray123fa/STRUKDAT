@@ -8,6 +8,7 @@ Repositori ini memiliki dua branch:
 
 - **strukdat**: Branch ini berisi kode-kode terkait dengan implementasi struktur data.
 - **alpro**: Branch ini berisi kode-kode terkait dengan implementasi algoritma pemrograman.
+- **pbo**: Branch ini berisi kode-kode terkait dengan pemrograman berorientasi objek.
 
 ## Cara Beralih Antara Branch
 
@@ -23,6 +24,9 @@ Jika Anda ingin beralih antara branch ini menggunakan perintah Git pada terminal
 
 ```bash
 git checkout alpro
+```
+```bash
+git checkout pbo
 ```
 
 ## Kontribusi
