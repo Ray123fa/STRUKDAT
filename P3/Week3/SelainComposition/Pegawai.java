@@ -1,41 +1,45 @@
+// Muhammad Rayhan Faridh
+// 222212766
+// 2KS1
+
 import java.time.LocalDate;
+import java.lang.Override;
 
 public class Pegawai extends Orang {
-	private String nip;
+	private String NIP;
 	private String namaKantor;
 	private String unitKerja;
-	private double gaji;
+	private double gaji = 7000000;
 
-	public Pegawai() {
-		this(null, null, null, null, null);
+	Pegawai() {
 	}
 
-	public Pegawai(String nip, String namaKantor, String unitKerja) {
-		this.nip = nip;
+	Pegawai(String NIP, String namaKantor, String unitKerja) {
+		this.NIP = NIP;
 		this.namaKantor = namaKantor;
 		this.unitKerja = unitKerja;
 	}
 
-	public Pegawai(String nama, String nip, String namaKantor, String unitKerja) {
+	Pegawai(String nama, String NIP, String namaKantor, String unitKerja) {
 		super(nama);
-		this.nip = nip;
+		this.NIP = NIP;
 		this.namaKantor = namaKantor;
 		this.unitKerja = unitKerja;
 	}
 
-	public Pegawai(String nama, LocalDate tanggalLahir, String nip, String namaKantor, String unitKerja) {
+	Pegawai(String nama, LocalDate tanggalLahir, String NIP, String namaKantor, String unitKerja) {
 		super(nama, tanggalLahir);
-		this.nip = nip;
+		this.NIP = NIP;
 		this.namaKantor = namaKantor;
 		this.unitKerja = unitKerja;
 	}
 
 	public String getNIP() {
-		return nip;
+		return NIP;
 	}
 
-	public void setNIP(String nip) {
-		this.nip = nip;
+	public void setNIP(String NIP) {
+		this.NIP = NIP;
 	}
 
 	public String getNamaKantor() {
@@ -60,5 +64,16 @@ public class Pegawai extends Orang {
 
 	public void setGaji(double gaji) {
 		this.gaji = gaji;
+	}
+
+	@Override
+	public String toString() {
+		return ("Pegawai[" +
+				super.toString() +
+				", NIP=" + NIP +
+				", NamaKantor=" + namaKantor +
+				", UnitKerja=" + unitKerja +
+				", Gaji=" + gaji +
+				"]");
 	}
 }

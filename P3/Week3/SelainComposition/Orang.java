@@ -1,18 +1,21 @@
+// Muhammad Rayhan Faridh
+// 222212766
+// 2KS1
+
 import java.time.LocalDate;
 
 public class Orang {
 	private String nama;
 	private LocalDate tanggalLahir;
 
-	public Orang() {
-		this(null, null);
+	Orang() {
 	}
 
-	public Orang(String nama) {
+	Orang(String nama) {
 		this.nama = nama;
 	}
 
-	public Orang(String nama, LocalDate tanggalLahir) {
+	Orang(String nama, LocalDate tanggalLahir) {
 		this.nama = nama;
 		this.tanggalLahir = tanggalLahir;
 	}
@@ -35,5 +38,9 @@ public class Orang {
 
 	public double getGaji() {
 		return 0;
+	}
+
+	public String toString() {
+		return "Orang[nama=" + nama + ", date=" + tanggalLahir + "]";
 	}
 }
