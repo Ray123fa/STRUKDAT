@@ -9,11 +9,11 @@ public class UnitKerja {
 		this.daftarPegawai = daftarPegawai;
 	}
 
-	public String getNama() {
+	public String getUnit() {
 		return unit;
 	}
 
-	public void setNama(String unit) {
+	public void setUnit(String unit) {
 		this.unit = unit;
 	}
 
