@@ -3,7 +3,7 @@
 // 2KS1
 
 abstract class Animal {
-	private String name;
+	String name;
 
 	public Animal(String name) {
 		this.name = name;
