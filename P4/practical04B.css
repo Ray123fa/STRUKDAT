@@ -1,0 +1,91 @@
+/*
+	Muhammad Rayhan Faridh
+	222212766
+	2KS1
+*/
+
+@import url("https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400");
+
+* {
+  scroll-behavior: smooth;
+  font-family: "Montserrat", sans-serif;
+}
+
+/* Nav Start */
+nav {
+  background-color: #1f2544;
+  overflow: hidden;
+}
+nav ul {
+  list-style-type: none;
+  margin: 0;
+}
+nav ul li {
+  float: left;
+  margin: 0 1em 0 0;
+}
+nav ul li a {
+  display: flex;
+  color: white;
+  text-align: center;
+  text-decoration: none;
+  height: 30px;
+  padding: 5px 1.5em;
+  justify-content: space-around;
+  align-items: center;
+}
+.active,
+nav ul li a:hover {
+  background-color: #c74451;
+}
+/* Nav End */
+
+/* Wrapper Start */
+.wrapper {
+  display: grid;
+  grid-template-columns: 0.4fr 3.6fr;
+}
+/* Wrapper End */
+
+/* Aside Start */
+aside ol {
+  list-style-type: none;
+}
+/* Aside End */
+
+/* Content Start */
+#posts-list {
+  margin-bottom: 0;
+}
+#posts-list li {
+  list-style-type: none;
+}
+.hr {
+  border-bottom: 1px solid #ccc;
+}
+article {
+  margin-bottom: 0.5em;
+}
+.judul {
+  font-weight: bold;
+}
+.tanggal {
+  font-style: italic;
+}
+.isi-artikel {
+  text-align: justify;
+  padding: 0 0 0.5em 0;
+}
+/* Content End */
+
+/* Footer Start */
+footer {
+  background-color: #1f2544;
+  color: white;
+  text-align: center;
+  padding: 0.5em 0;
+}
+footer p {
+  margin: 0 0 0.25em;
+}
+/* Footer End */

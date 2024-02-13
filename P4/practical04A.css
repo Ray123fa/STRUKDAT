@@ -1,0 +1,69 @@
+/*
+  Muhammad Rayhan Faridh
+  222212766
+  2KS1
+*/
+
+@import url("https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;700&display=swap");
+
+* {
+  scroll-behavior: smooth;
+  font-family: "Open Sans", sans-serif;
+}
+
+h1 {
+  font-size: 2em;
+  color: navy;
+}
+h2 {
+  font-size: 1.8em;
+  color: navy;
+}
+
+nav ol {
+  width: fit-content;
+  background-color: #ccd;
+  list-style: none;
+  display: flex;
+  padding-left: 1em;
+  padding-right: 1em;
+  gap: 2em;
+}
+nav li {
+  background-color: #aab;
+}
+nav li a {
+  text-decoration: none;
+}
+nav li a:hover {
+  background-color: yellow;
+}
+
+.part1 {
+  background-color: lightyellow;
+  padding: 0.5em;
+  margin: 0.5em 0 0.5em 0;
+  border-radius: 1em;
+}
+
+.inside-list {
+  list-style-position: inside;
+  padding-left: 0;
+}
+
+dt {
+  background-color: navy;
+  border-radius: 0.5em 0.5em 0 0;
+  padding: 0.25em 0.5em 0.25em;
+}
+
+dd {
+  margin-left: 0;
+  background-color: #ccd;
+  border-radius: 0 0 0.5em 0.5em;
+  padding: 0.25em 0.5em 0.25em;
+}
+
+dt:nth-child(3) {
+  margin-top: 0.5em;
+}
