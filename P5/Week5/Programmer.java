@@ -2,13 +2,13 @@
 // 222212766
 // 2KS1
 
-import java.sql.Date;
+import java.time.LocalDate;
 
 public class Programmer extends Pegawai {
   private String bahasaPemrograman;
   private String platform;
 
-  public Programmer(String nama, Date tanggalLahir, String NIP, String kantor, String unitKerja, String NIDN,
+  public Programmer(String nama, LocalDate tanggalLahir, String NIP, String kantor, String unitKerja, String NIDN,
       String kelompokKeahlian, String bahasaPemrograman, String platform) {
     super(nama, tanggalLahir, NIP, kantor, unitKerja, NIDN, kelompokKeahlian);
     this.bahasaPemrograman = bahasaPemrograman;

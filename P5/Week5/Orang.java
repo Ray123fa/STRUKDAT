@@ -2,13 +2,13 @@
 // 222212766
 // 2KS1
 
-import java.sql.Date;
+import java.time.LocalDate;
 
 public abstract class Orang {
   private String nama;
-  private Date tanggalLahir;
+  private LocalDate tanggalLahir;
 
-  public Orang(String nama, Date tanggalLahir) {
+  public Orang(String nama, LocalDate tanggalLahir) {
     this.nama = nama;
     this.tanggalLahir = tanggalLahir;
   }
@@ -21,11 +21,11 @@ public abstract class Orang {
     this.nama = nama;
   }
 
-  public Date getTanggalLahir() {
+  public LocalDate getTanggalLahir() {
     return tanggalLahir;
   }
 
-  public void setTanggalLahir(Date tanggalLahir) {
+  public void setTanggalLahir(LocalDate tanggalLahir) {
     this.tanggalLahir = tanggalLahir;
   }
 

@@ -2,7 +2,7 @@
 // 222212766
 // 2KS1
 
-import java.sql.Date;
+import java.time.LocalDate;
 
 public class Pegawai extends Orang implements Dosen {
   private String NIP;
@@ -11,7 +11,7 @@ public class Pegawai extends Orang implements Dosen {
   private String NIDN;
   private String kelompokKeahlian;
 
-  public Pegawai(String nama, Date tanggalLahir, String NIP, String kantor, String unitKerja, String NIDN,
+  public Pegawai(String nama, LocalDate tanggalLahir, String NIP, String kantor, String unitKerja, String NIDN,
       String kelompokKeahlian) {
     super(nama, tanggalLahir);
     this.NIP = NIP;
