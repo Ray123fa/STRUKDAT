@@ -11,7 +11,7 @@ public class AllTest {
 				"Cyber Security");
 
 		// Print pegawai
-		System.out.println("\nInformasi Pegawai:");
+		System.out.println("Informasi Pegawai:");
 		System.out.println(pegawai);
 
 		// Set and get NIDN
