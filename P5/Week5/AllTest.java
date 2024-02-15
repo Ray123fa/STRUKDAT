@@ -2,42 +2,42 @@
 // 222212766
 // 2KS1
 
-import java.sql.Date;
+import java.time.LocalDate;
 
 public class AllTest {
 	public static void main(String[] args) {
-		// Membuat objek Pegawai
-		Pegawai pegawai = new Pegawai("Kuroko Tetsuya", Date.valueOf("1998-09-09"), "123456", "Seirin", "IT", "987654",
+		// Create Pegawai Object
+		Pegawai pegawai = new Pegawai("Ryoma Otsuka", LocalDate.of(2000, 12, 13), "12766", "Shinjuku", "IT", "13301",
 				"Cyber Security");
 
-		// Mencetak informasi pegawai
+		// Print pegawai
 		System.out.println("\nInformasi Pegawai:");
 		System.out.println(pegawai);
 
-		// Mengatur dan mencetak NIDN pegawai
-		pegawai.setNIDN("999999");
+		// Set and get NIDN
+		pegawai.setNIDN("13041");
 		System.out.println("NIDN Pegawai: " + pegawai.getNIDN());
 
-		// Mengatur dan mencetak unit kerja pegawai
-		pegawai.setUnitKerja("Humas");
+		// Set and get unit kerja
+		pegawai.setUnitKerja("PSDM");
 		System.out.println("Unit Kerja Pegawai: " + pegawai.getUnitKerja());
 
-		// Mencetak pekerjaan pegawai
+		// Print pekerjaan
 		System.out.println("Pekerjaan Pegawai: " + pegawai.getPekerjaan());
 
-		// Membuat objek Programmer
-		Programmer programmer = new Programmer("Kagami", Date.valueOf("1998-06-25"), "654321", "Seirin", "IT", "888888",
-				"Developer", "Javascript", "Web");
+		// Create Programmer Object
+		Programmer programmer = new Programmer("Shandika Galih", LocalDate.of(1998, 6, 25), "15265", "Shinjuku", "IT",
+				"12778", "Developer", "Golang", "Web");
 
-		// Mencetak informasi programmer
+		// Print programmer
 		System.out.println("\nInformasi Programmer:");
 		System.out.println(programmer);
 
-		// Mengatur dan mencetak bahasa pemrograman programmer
-		programmer.setBahasaPemrograman("Python");
+		// Set and get Bahasa Pemrograman
+		programmer.setBahasaPemrograman("C++");
 		System.out.println("Bahasa Pemrograman Programmer: " + programmer.getBahasaPemrograman());
 
-		// Mengatur dan mencetak platform programmer
+		// Set and get Platform
 		programmer.setPlatform("Desktop");
 		System.out.println("Platform Programmer: " + programmer.getPlatform());
 	}
