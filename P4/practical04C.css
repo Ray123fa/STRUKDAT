@@ -40,6 +40,19 @@ nav ul li a:hover {
 }
 /* Nav End */
 
+/* Wrapper Start */
+.wrapper {
+  display: grid;
+  grid-template-columns: 0.4fr 3.6fr;
+}
+/* Wrapper End */
+
+/* Aside Start */
+aside ol {
+  list-style-type: none;
+}
+/* Aside End */
+
 /* Content Start */
 #posts-list {
   margin-bottom: 0;
