@@ -1,0 +1,33 @@
+<!-- Muhammad Rayhan Faridh -->
+<!-- 222212766 -->
+<!-- 2KS1 -->
+
+<!DOCTYPE html>
+<html lang="id">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>JavaScript 08A: Functions</title>
+
+	<script id="s1">
+		function loop(max) {
+		function applyAndWrite(f, y) {
+		document.writeln(f.name, '(', y, ') = ', f(y),
+		"<br>")
+		}
+		function times2(x) { return 2 * x }
+		// Code for Exercise 1e here
+		for (var i = 0; i <= max; i++) {
+			applyAndWrite(times2, i)
+		}
+	}
+	</script>
+</head>
+<body>
+	<script id="s2">
+		loop(2)
+		// Code for Exercise 1d here
+	</script>
+	<noscript>JavaScript not supported or enabled</noscript>
+</body>
+</html>
