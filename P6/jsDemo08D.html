@@ -1,0 +1,42 @@
+<!-- Muhammad Rayhan Faridh -->
+<!-- 222212766 -->
+<!-- 2KS1 -->
+
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>JavaScript 08D</title>
+</head>
+
+<body>
+	<script>
+		planets = ["earth"];
+		planets.unshift("mercury", "venus");
+		planets.push("mars", "jupiter", "saturn");
+		document.writeln("planets\@1: " + planets.join(" ") + "<br>");
+		last = planets.pop();
+		document.writeln("planets\@2: " + planets.join(" ") + "<br>");
+		first = planets.shift();
+		document.writeln("planets\@3: " + planets.join(" ") + "<br>");
+		document.writeln(" \@4: " + first + " " + last + "<br>"); home = ["mercury", "venus", "earth"].pop();
+		document.writeln(" \@5: " + home + "<br>");
+		number = ["earth"].push("mars");
+		document.writeln(" \@6: " + number + "<br>");
+
+		planets.length = 2;
+		document.writeln("planets\@7: " + planets.join(" ") + "<br>");
+		// list = planets; // apabila tidak dislice, maka list akan mengikuti perubahan planets
+		list = planets.slice();
+		document.writeln("list \@8: " + list.join(" ") + "<br>"); planets[1] = "midgard";
+		document.writeln("list \@9: " + list.join(" ") + "<br>");
+
+		planets = ["Bellerophon", "Ymir", "Osiris"];
+		document.writeln("list \@10: " + list.join(" ") + "<br>"); document.writeln("planets\@10: " + planets.join(" ") +
+			"<br>");
+	</script>
+</body>
+
+</html>

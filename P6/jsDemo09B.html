@@ -1,0 +1,96 @@
+<!-- Muhammad Rayhan Faridh -->
+<!-- 222212766 -->
+<!-- 2KS1 -->
+
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>JavaScript 09B: Objects</title>
+
+	<script>
+		class Employees {
+			constructor() {
+				this.employee = [];
+			}
+			add(employee) {
+				this.employee.push(employee);
+			}
+			delete(name) {
+				for (let index = 0; index < this.employee.length; index++) {
+					if (this.employee[index].getName() === name) {
+						this.employee.splice(index, 1);
+						Employee.count--;
+					}
+				}
+			}
+			get(index) {
+				return this.employee[index];
+			}
+			getArray() {
+				return this.employee;
+			}
+		}
+
+		class Employee {
+			static count = 0;
+			constructor(name, salary) {
+				Employee.count++;
+				this.name = name;
+				let _salary = salary;
+
+				this.getSalary = function () {
+					return _salary;
+				};
+				this.setSalary = function (salary) {
+					_salary = salary;
+				};
+			}
+			getName() {
+				return this.name;
+			}
+			static getEmployeeCount() {
+				return Employee.count;
+			}
+		}
+	</script>
+</head>
+
+<body>
+	<script>
+		var employees = new Employees;
+		employees.add(new Employee("Hal Smith", 30000))
+		employees.add(new Employee("Tim Peck", 20000))
+		employees.add(new Employee("Ari Bell", 18000))
+
+		// For e[0].name we expect 'Hal Smith'
+		document.writeln("e[0].name = " + employees.get(0).name + "<br>");
+		// For e[0].getSalary() we expect 30000
+		document.writeln("e[0].salary = " + employees.get(0).getSalary() + "<br>");
+
+		// For e[1].getName() we expect 'Tim Peck'
+		document.writeln("e[1]'s name = " + employees.get(1).name + "<br>");
+		// For e[1].getSalary() we expect 20000
+		document.writeln("e[1]'s salary = " + employees.get(1).getSalary() + "<br>");
+
+		// We make changes to e[1]
+		document.writeln("<br>Changing e[1]'s name to 'Tom Beck' and " + "salary to 25000<br>");
+		employees.get(1).name = "Tom Beck";
+		employees.get(1).setSalary(25000);
+		// For e[1].getName() we now expect 'Tom Beck'
+		document.writeln("e[1]'s name = " + employees.get(1).name + "<br>");
+		// For e[1].getSalary() we now expect 25000
+		document.writeln("e[1]'s salary = " + employees.get(1).getSalary() + "<br>");
+		// For e[1].getEmployeeCount() we expect 3
+		document.writeln("Employees: " + Employee.getEmployeeCount() + "<br>");
+
+		employees.delete("Hal Smith");
+		document.writeln("<br>Employees: " + Employee.getEmployeeCount() + "<br>");
+		document.writeln("e[0].name = " + employees.get(0).name + "<br>");
+		document.writeln("e[2].name = " + employees.get(1).name + "<br>");
+	</script>
+</body>
+
+</html>
