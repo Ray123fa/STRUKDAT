@@ -34,7 +34,6 @@ public abstract class Orang {
   }
 
   public String getNamaPanggilan() {
-    String[] arrNama = nama.split(" ", 4);
-    return arrNama[0] + " " + arrNama[1] + " " + arrNama[2];
+    return nama.substring(0, Math.min(nama.length(), 3));
   }
 }
