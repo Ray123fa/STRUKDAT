@@ -3,49 +3,21 @@
 // 2KS1
 
 public class AllTest {
-	public static void main(String[] args) {
-		Kendaraan motor = new Motor();
-		motor.display();
-		motor.jalanTol();
-		motor._jalur();
-		System.out.println();
+  public static void main(String[] args) {
+    Location kostKu = new Location(
+        "Kostku",
+        new Coordinates(-6.232d, 106.868802));
+    Location kampus = new Location(
+        "STIS",
+        new Coordinates(-6.231d, 106.867525));
 
-		Kendaraan mobil = new Mobil();
-		mobil.display();
-		mobil.jalanTol();
-		mobil._jalur();
-		System.out.println();
+    Route bestRoute = new Walking(kostKu, kampus);
+    bestRoute.printRoute();
 
-		Kendaraan sepeda = new Sepeda();
-		sepeda.display();
-		sepeda.jalanTol();
-		sepeda._jalur();
-		System.out.println();
+    bestRoute = new Riding(kostKu, kampus);
+    bestRoute.printRoute();
 
-		Kendaraan orang = new Orang();
-		orang.display();
-		orang.jalanTol();
-		orang._jalur();
-		System.out.println();
-
-		Kendaraan kapal = new Kapal();
-		kapal.display();
-		kapal.jalanTol();
-		kapal._jalur();
-		kapal.metal();
-		System.out.println();
-
-		Kendaraan pesawat = new Pesawat();
-		pesawat.display();
-		pesawat.jalanTol();
-		pesawat._jalur();
-		pesawat.metal();
-		System.out.println();
-
-		Kendaraan kereta = new Kereta();
-		kereta.display();
-		kereta.jalanTol();
-		kereta._jalur();
-		kereta.metal();
-	}
+    bestRoute = new Driving(kostKu, kampus);
+    bestRoute.printRoute();
+  }
 }
