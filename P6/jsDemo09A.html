@@ -16,6 +16,9 @@
 			this.height = height;
 			this.type = 'Rectangle';
 		}
+		Rectangle.prototype.toString = function () {
+			return this.type + '[' + this.width + ',' + this.height + ']';
+		};
 		Rectangle.prototype.area = function () {
 			return this.width * this.height;
 		};
@@ -31,6 +34,9 @@
 			this.length = length;
 			this.type = 'Polygon';
 		}
+		Polygon.prototype.toString = function () {
+			return this.side + '-' + this.type + '[' + this.length + ']';
+		};
 		Polygon.prototype.area = function () {
 			ans = this.side * Math.pow(this.length, 2);
 			ans = ans / (4 * Math.tan(Math.PI / this.side));
@@ -48,9 +54,9 @@
 		document.writeln("The area of sq1 is ", sq1.area(), "<br>");
 		document.writeln("The area of pg1 is ", pg1.area(), "<br>");
 
-		document.writeln("<br>The area of Rectangle[", rc1.width, ",", rc1.height, "]  is ", rc1.area(), "<br>");
-		document.writeln("The area of Square[", sq1.width, "]  is ", sq1.area(), "<br>");
-		document.writeln("The area of ", pg1.side, "-Polygon[", pg1.length, "]  is ", pg1.area(), "<br>");
+		document.writeln("<br>The area of ", rc1, " is ", rc1.area(), "<br>");
+		document.writeln("The area of ", sq1, " is ", sq1.area(), "<br>");
+		document.writeln("The area of ", pg1, " is ", pg1.area(), "<br>");
 	</script>
 </body>
 
