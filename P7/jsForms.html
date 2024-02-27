@@ -1,0 +1,53 @@
+<!-- Muhammad Rayhan Faridh -->
+<!-- 222212766 -->
+<!-- 2KS1 -->
+
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>JavaScript and Forms</title>
+
+	<script>
+		function fahrenheitToCelcius(temperature) {
+			return (temperature - 32) * 5 / 9;
+		}
+
+		function processInput() {
+			var fahrenheit = document.getElementById("df").value;
+			var error = document.getElementById("error");
+
+			var pattern = /^[0-9]+$/;
+			if (!fahrenheit.match(pattern)) {
+				error.innerHTML = "Please enter a valid number";
+				document.getElementById("df").focus();
+				return false;
+			} else if (fahrenheit == "") {
+				error.innerHTML = "Please enter a number";
+				document.getElementById("df").focus();
+				return false;
+			} else {
+				error.innerHTML = "";
+				return true;
+			}
+		}
+	</script>
+</head>
+
+<body>
+	<h1>JavaScript and Forms</h1>
+	<form name="form1" action="">
+		Temperature in Fahrenheit:
+		<input type="number" name="fahrenheit" id="df" size="10" value="0"><br>
+		Temperature in Celcius:
+		<input type="number" name="celcius" onfocus="blur();"><br>
+		<input type="button" name="Convert"
+			onclick="processInput(); document.form1.celcius.value = fahrenheitToCelcius(parseFloat(document.form1.fahrenheit.value)).toFixed(1);"
+			value="Convert">
+	</form>
+	<div id="error"></div>
+</body>
+
+</html>

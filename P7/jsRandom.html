@@ -1,0 +1,84 @@
+<!-- Muhammad Rayhan Faridh -->
+<!-- 222212766 -->
+<!-- 2KS1 -->
+
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>jsRandom</title>
+
+	<style>
+		.wrapper {
+			width: max-content;
+		}
+
+		table {
+			border-collapse: collapse;
+		}
+
+		td {
+			width: 50px;
+			height: 50px;
+			border: 1 px solid black;
+			text-align: center;
+			cursor: pointer;
+		}
+
+		button {
+			margin-top: 10px;
+			height: 30px;
+			width: 100%;
+			font-weight: bold;
+		}
+	</style>
+</head>
+
+<body>
+	<div class="wrapper">
+		<table id="mytable" border="1">
+			<tr>
+				<td>0</td>
+				<td>0</td>
+				<td>0</td>
+			</tr>
+			<tr>
+				<td>0</td>
+				<td>0</td>
+				<td>0</td>
+			</tr>
+			<tr>
+				<td>0</td>
+				<td>0</td>
+				<td>0</td>
+			</tr>
+		</table>
+		<button onclick="calculate()">Hitung</button>
+	</div>
+
+	<script>
+		function randomize(num) {
+			num.innerHTML = Math.floor(Math.random() * 9) + 1;
+		}
+
+		var tds = document.querySelectorAll("#mytable td");
+		for (var i = 0; i < tds.length; i++) {
+			tds[i].addEventListener("click", function () {
+				randomize(this);
+			});
+		}
+
+		function calculate() {
+			var tds = document.querySelectorAll("#mytable td");
+			var sum = 0;
+			for (var i = 0; i < tds.length; i++) {
+				sum += parseInt(tds[i].innerHTML);
+			}
+			alert("Jumlah seluruh bilangan dalam papan adalah " + sum + ".");
+		}
+	</script>
+</body>
+
+</html>
