@@ -34,7 +34,7 @@
 		Polygon.prototype.area = function () {
 			ans = this.side * Math.pow(this.length, 2);
 			ans = ans / (4 * Math.tan(Math.PI / this.side));
-			return ans.toFixed(2);
+			return ans.toFixed(2); // toFixed digunakan untuk membulatkan hasil desimal menjadi dua angka belakang koma
 		};
 	</script>
 </head>
@@ -50,7 +50,7 @@
 
 		document.writeln("<br>The area of Rectangle[", rc1.width, ",", rc1.height, "]  is ", rc1.area(), "<br>");
 		document.writeln("The area of Square[", sq1.width, "]  is ", sq1.area(), "<br>");
-		document.writeln("The area of Polygon[", pg1.side, ",", pg1.length, "]  is ", pg1.area(), "<br>");
+		document.writeln("The area of ", pg1.side, "-Polygon[", pg1.length, "]  is ", pg1.area(), "<br>");
 	</script>
 </body>
 
