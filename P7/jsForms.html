@@ -19,13 +19,9 @@
 			var fahrenheit = document.getElementById("df").value;
 			var error = document.getElementById("error");
 
-			var pattern = /^[0-9]+$/;
+			var pattern = /^[0-9]+\.?\d*$/;
 			if (!fahrenheit.match(pattern)) {
 				error.innerHTML = "Please enter a valid number";
-				document.getElementById("df").focus();
-				return false;
-			} else if (fahrenheit == "") {
-				error.innerHTML = "Please enter a number";
 				document.getElementById("df").focus();
 				return false;
 			} else {
