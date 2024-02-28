@@ -31,10 +31,25 @@
 		document.writeln("planets\@7: " + planets.join(" ") + "<br>");
 		// list = planets; // apabila tidak dislice, maka list akan mengikuti perubahan planets
 		list = planets.slice();
-		document.writeln("list \@8: " + list.join(" ") + "<br>"); planets[1] = "midgard";
+		document.writeln("list \@8: " + list.join(" ") + "<br>");
+		planets[1] = "midgard";
 		document.writeln("list \@9: " + list.join(" ") + "<br>");
 
 		planets = ["Bellerophon", "Ymir", "Osiris"];
+		/* 
+		* Kasus: planets tidak dislice
+		* ketika planets diinisialisasi ulang, JavaScript akan membuat array baru yang berisi ["Bellerophon", "Ymir", "Osiris"]
+		* mengapa begitu? karena planets sudah tidak menunjuk ke array lama lagi, melainkan menunjuk ke array baru
+		* sehingga list tidak akan mengikuti perubahan planets karena list masih menunjuk ke planets yang lama (sebelum inisiasi ulang)
+		*/
+
+		/*
+		* Kasus: planets tidak dislice
+		* bila planets diinisiasi ulang seperti berikut, maka list akan mengikuti perubahan planets
+		* planets[0] = "Bellerophon";
+		* planets[1] = "Ymir";
+		* planets[2] = "Osiris";
+		*/
 		document.writeln("list \@10: " + list.join(" ") + "<br>");
 		document.writeln("planets\@10: " + planets.join(" ") + "<br>");
 	</script>
