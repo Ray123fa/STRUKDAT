@@ -4,7 +4,7 @@
 
 import java.util.List;
 
-class All {
+class Essay_1 {
 	abstract class Shape {
 		private String color;
 
@@ -88,7 +88,7 @@ class All {
 	}
 
 	public static void main(String[] args) {
-		All all = new All();
+		Essay_1 all = new Essay_1();
 		Rectangle rectangle = all.new Rectangle(5, 10);
 		Circle circle = all.new Circle(5);
 		Polygon polygon =
