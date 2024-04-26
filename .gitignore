@@ -5,8 +5,7 @@
 *.drawio
 
 # Folder
-/P2/HaloDunia/
-/P2/Mahasiswa/
+build
 
 # Compiled class file
 *.class
