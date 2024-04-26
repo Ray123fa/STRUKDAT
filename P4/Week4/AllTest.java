@@ -18,12 +18,7 @@ public class AllTest {
 
 		// Test Implement Dosen
 		System.out.println();
-		Pegawai rayfa = new Pegawai(
-				"Rayfa",
-				LocalDate.of(2004, 2, 16),
-				"16040386",
-				"BPS Kota Banjarmasin",
-				"IT");
+		Pegawai rayfa = new Pegawai("Rayfa", LocalDate.of(2004, 2, 16), "16040386", "BPS Kota Banjarmasin", "IT");
 		rayfa.setAlamat("Jl. Martapura Lama");
 		rayfa.setNIDN("1404038602");
 		rayfa.setKelompokKeahlian("Web Programming");
@@ -31,12 +26,7 @@ public class AllTest {
 
 		// Test Programmer
 		System.out.println();
-		Pegawai r = new Pegawai(
-				"Rayhan",
-				LocalDate.of(2004, 2, 16),
-				"222212766",
-				"STIS",
-				"IT");
+		Pegawai r = new Pegawai("Rayhan", LocalDate.of(2004, 2, 16), "222212766", "STIS", "IT");
 		Programmer rayhan = new Programmer(r, "PHP", "Web");
 		rayhan.setAlamat("Jl. Hasbi");
 		System.out.println(rayhan.toString());
