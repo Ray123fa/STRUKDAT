@@ -5,15 +5,12 @@
 	<title>PHP 12C</title>
 
 	<style>
-		table {
-			border-collapse: collapse;
-			width: fit-content;
-		}
-
 		table,
 		th,
 		td {
 			border: 1px solid black;
+			border-collapse: collapse;
+			width: fit-content;
 		}
 
 		th,
@@ -42,6 +39,7 @@
 	echo "\$dict2['b'] = ", $dict2['b'], "<br>\n";
 	?>
 
+	<br>
 	<span>Dict 1</span>
 	<pre>
 		<?= var_dump($dict1) ?>
