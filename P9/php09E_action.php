@@ -1,3 +1,7 @@
+<!-- Muhammad Rayhan Faridh -->
+<!-- 222212766 -->
+<!-- 2KS1 -->
+
 <?php
 $db_hostname = "localhost";
 $db_username = "root";
