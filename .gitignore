@@ -34,7 +34,6 @@ replay_pid*
 **/nbproject/private/
 **/nbproject/Makefile-*.mk
 **/nbproject/Package-*.bash
-**/nbproject/project.properties
 build/
 nbbuild/
 dist/
