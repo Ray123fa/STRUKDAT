@@ -4,6 +4,10 @@
 *.png
 *.drawio
 
+### Folder ###
+pbo_project/
+UAS_PBO/
+
 ### Java ###
 # Compiled class file
 *.class
