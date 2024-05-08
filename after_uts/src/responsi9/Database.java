@@ -12,24 +12,24 @@ import java.util.List;
  * @author Muhammad Rayhan Faridh
  */
 public class Database {
-    public static Database instance;
-                private ArrayList<Mahasiswa> data = new ArrayList<>();
+	public static Database instance;
+	private ArrayList<Mahasiswa> data = new ArrayList<>();
 
-                private Database() {
-                }
+	private Database() {
+	}
 
-                public static synchronized Database getInstance() {
-                        if (instance == null) {
-                                instance = new Database();
-                        }
-                        return instance;
-                }
+	public static synchronized Database getInstance() {
+		if (instance == null) {
+			instance = new Database();
+		}
+		return instance;
+	}
 
-                public void insertMahasiswa(Mahasiswa mahasiswa) {
-                        data.add(mahasiswa);
-                }
+	public void insertMahasiswa(Mahasiswa mahasiswa) {
+		data.add(mahasiswa);
+	}
 
-                public List<Mahasiswa> getListMahasiswa() {
-                        return data;
-                }
+	public List<Mahasiswa> getListMahasiswa() {
+		return data;
+	}
 }
