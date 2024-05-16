@@ -3,7 +3,7 @@
 <!-- 2KS1 -->
 
 <?php
-require_once "db.php";
+require_once "../db.php";
 
 try {
 	$stmt = $pdo->prepare("UPDATE meetings SET name = :name, email = :email WHERE slot = :slot");

@@ -3,7 +3,7 @@
 <!-- 2KS1 -->
 
 <?php
-require_once "db.php";
+require_once "../db.php";
 
 try {
 	$stmt = $pdo->prepare("INSERT INTO meetings (slot, name, email) VALUES (:slot, :name, :email)");

@@ -15,7 +15,7 @@
 	<h1>PHP and Databases</h1>
 
 	<?php
-	require_once "db.php";
+	require_once "../db.php";
 
 	try {
 		echo "<h2>Data in meeting table (While loop)</h2>\n";
