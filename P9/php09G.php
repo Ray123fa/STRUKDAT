@@ -6,7 +6,6 @@
 require_once "db.php";
 
 try {
-	$pdo = new PDO($dsn, $db_username, $db_password, $opt);
 	$stmt = $pdo->prepare("SELECT * FROM meetings WHERE slot = :slot");
 	$stmt->execute(array(':slot' => $_GET['slot']));
 	$row = $stmt->fetch();

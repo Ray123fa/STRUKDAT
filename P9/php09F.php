@@ -26,7 +26,6 @@
 	require_once "db.php";
 
 	try {
-		$pdo = new PDO($dsn, $db_username, $db_password, $opt);
 		echo "<h2>Data Meeting</h2>\n";
 		$stmt = $pdo->query("SELECT * FROM meetings ORDER BY slot");
 		if ($stmt->rowCount() == 0) {

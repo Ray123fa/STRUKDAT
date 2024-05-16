@@ -18,7 +18,6 @@
 	require_once "db.php";
 
 	try {
-		$pdo = new PDO($dsn, $db_username, $db_password, $opt);
 		echo "<h2>Data in meeting table (While loop)</h2>\n";
 		$stmt = $pdo->query('SELECT * FROM meetings');
 		echo "Rows retrieved: " . $stmt->rowcount() . "<br><br>\n";

@@ -6,7 +6,6 @@
 require_once "db.php";
 
 try {
-	$pdo = new PDO($dsn, $db_username, $db_password, $opt);
 	$stmt = $pdo->prepare("INSERT INTO meetings (slot, name, email) VALUES (:slot, :name, :email)");
 	$stmt->execute(array(':slot' => $_REQUEST['slot'], ':name' => $_REQUEST['name'], ':email' => $_REQUEST['email']));
 
