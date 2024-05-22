@@ -2,7 +2,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JPanel.java to edit this template
  */
-package responsi9;
+package responsi11;
 
 /**
  *
@@ -24,17 +24,17 @@ public class HomePanel extends javax.swing.JPanel {
    */
   @SuppressWarnings("unchecked")
   // <editor-fold defaultstate="collapsed" desc="Generated
-  // Code">//GEN-BEGIN:initComponents
-  private void initComponents() {
+    // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
+    private void initComponents() {
 
-    jLabel1 = new javax.swing.JLabel();
+        jLabel1 = new javax.swing.JLabel();
 
-    jLabel1.setFont(new java.awt.Font("sansserif", 1, 36)); // NOI18N
-    jLabel1.setText("SELAMAT DATANG");
-    add(jLabel1);
-  }// </editor-fold>//GEN-END:initComponents
+        jLabel1.setFont(new java.awt.Font("sansserif", 1, 36)); // NOI18N
+        jLabel1.setText("SELAMAT DATANG");
+        add(jLabel1);
+    }// </editor-fold>//GEN-END:initComponents
 
-  // Variables declaration - do not modify//GEN-BEGIN:variables
-  private javax.swing.JLabel jLabel1;
-  // End of variables declaration//GEN-END:variables
+    // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JLabel jLabel1;
+    // End of variables declaration//GEN-END:variables
 }

@@ -2,8 +2,16 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JPanel.java to edit this template
  */
-package responsi9;
+package responsi11;
 
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.JOptionPane;
 import javax.swing.JScrollPane;
 
 /**
@@ -11,10 +19,19 @@ import javax.swing.JScrollPane;
  * @author Muhammad Rayhan Faridh
  */
 public class LoginPanel extends javax.swing.JPanel {
-  private final JScrollPane contentScrollPane;
+    private final JScrollPane contentScrollPane;
+    private boolean account = false;
+  
+    private final String DB_TYPE = "mysql";
+    private final String DB_HOST = "localhost";
+    private final String DB_PORT = "3306";
+    private final String DB_NAME = "pbo";
+    private final String DB_USER = "root";
+    private final String DB_PASS = "root";
 
   /**
    * Creates new form LoginPanel
+     * @param contentScrollPane
    */
   public LoginPanel(JScrollPane contentScrollPane) {
     initComponents();
@@ -28,68 +45,94 @@ public class LoginPanel extends javax.swing.JPanel {
    */
   @SuppressWarnings("unchecked")
   // <editor-fold defaultstate="collapsed" desc="Generated
-  // Code">//GEN-BEGIN:initComponents
-  private void initComponents() {
-    java.awt.GridBagConstraints gridBagConstraints;
+    // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
+    private void initComponents() {
+        java.awt.GridBagConstraints gridBagConstraints;
 
-    jLabel1 = new javax.swing.JLabel();
-    usernameField = new javax.swing.JTextField();
-    jLabel2 = new javax.swing.JLabel();
-    passwordField = new javax.swing.JPasswordField();
-    loginButton = new javax.swing.JButton();
+        jLabel1 = new javax.swing.JLabel();
+        usernameField = new javax.swing.JTextField();
+        jLabel2 = new javax.swing.JLabel();
+        passwordField = new javax.swing.JPasswordField();
+        loginButton = new javax.swing.JButton();
 
-    setLayout(new java.awt.GridBagLayout());
+        setLayout(new java.awt.GridBagLayout());
 
-    jLabel1.setText("Username:");
-    jLabel1.setPreferredSize(new java.awt.Dimension(80, 16));
-    gridBagConstraints = new java.awt.GridBagConstraints();
-    gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
-    add(jLabel1, gridBagConstraints);
+        jLabel1.setText("Username:");
+        jLabel1.setPreferredSize(new java.awt.Dimension(80, 16));
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
+        add(jLabel1, gridBagConstraints);
 
-    usernameField.setPreferredSize(new java.awt.Dimension(150, 28));
-    gridBagConstraints = new java.awt.GridBagConstraints();
-    gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_END;
-    add(usernameField, gridBagConstraints);
+        usernameField.setPreferredSize(new java.awt.Dimension(150, 28));
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_END;
+        add(usernameField, gridBagConstraints);
 
-    jLabel2.setText("Password:");
-    jLabel2.setPreferredSize(new java.awt.Dimension(80, 16));
-    gridBagConstraints = new java.awt.GridBagConstraints();
-    gridBagConstraints.gridx = 0;
-    gridBagConstraints.gridy = 1;
-    gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
-    add(jLabel2, gridBagConstraints);
+        jLabel2.setText("Password:");
+        jLabel2.setPreferredSize(new java.awt.Dimension(80, 16));
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 1;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
+        add(jLabel2, gridBagConstraints);
 
-    passwordField.setPreferredSize(new java.awt.Dimension(150, 28));
-    gridBagConstraints = new java.awt.GridBagConstraints();
-    gridBagConstraints.gridx = 1;
-    gridBagConstraints.gridy = 1;
-    gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_END;
-    add(passwordField, gridBagConstraints);
+        passwordField.setPreferredSize(new java.awt.Dimension(150, 28));
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 1;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_END;
+        add(passwordField, gridBagConstraints);
 
-    loginButton.setText("LOGIN");
-    loginButton.setPreferredSize(new java.awt.Dimension(80, 28));
-    loginButton.addActionListener(new java.awt.event.ActionListener() {
-      public void actionPerformed(java.awt.event.ActionEvent evt) {
-        loginButtonActionPerformed(evt);
-      }
-    });
-    gridBagConstraints = new java.awt.GridBagConstraints();
-    gridBagConstraints.gridx = 1;
-    gridBagConstraints.gridy = 2;
-    gridBagConstraints.anchor = java.awt.GridBagConstraints.LAST_LINE_END;
-    gridBagConstraints.insets = new java.awt.Insets(10, 0, 0, 0);
-    add(loginButton, gridBagConstraints);
-  }// </editor-fold>//GEN-END:initComponents
+        loginButton.setText("LOGIN");
+        loginButton.setPreferredSize(new java.awt.Dimension(80, 28));
+        loginButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                loginButtonActionPerformed(evt);
+            }
+        });
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 2;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.LAST_LINE_END;
+        gridBagConstraints.insets = new java.awt.Insets(10, 0, 0, 0);
+        add(loginButton, gridBagConstraints);
+    }// </editor-fold>//GEN-END:initComponents
 
   private void loginButtonActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_loginButtonActionPerformed
-    contentScrollPane.setViewportView(new HomePanel());
+    try {
+            Connection conn = getConnection();
+            
+            String sql = "SELECT * FROM account";
+            Statement stmt = conn.createStatement();
+            ResultSet rs = stmt.executeQuery(sql);
+            
+            while(rs.next()){
+                if(usernameField.getText().equals(rs.getString("username"))){
+                    if(passwordField.getText().equals(rs.getString("password"))){
+                        Database.getInstance().setLogin(true);
+                        account = true;
+                        contentScrollPane.setViewportView(new HomePanel());
+                    }
+                }
+            }
+            
+            if(!account){
+                JOptionPane.showMessageDialog(this, "Username atau Password Salah!");
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(LoginPanel.class.getName()).log(Level.SEVERE, null, ex);
+        }
   }// GEN-LAST:event_loginButtonActionPerformed
+  
+  private Connection getConnection() throws SQLException{
+        return DriverManager.getConnection("jdbc:"+DB_TYPE+"://"+DB_HOST+":"+DB_PORT+"/"+DB_NAME, DB_USER, DB_PASS);
+    }
 
-  // Variables declaration - do not modify//GEN-BEGIN:variables
-  private javax.swing.JLabel jLabel1;
-  private javax.swing.JLabel jLabel2;
-  private javax.swing.JButton loginButton;
-  private javax.swing.JPasswordField passwordField;
-  private javax.swing.JTextField usernameField;
-  // End of variables declaration//GEN-END:variables
+    // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
+    private javax.swing.JButton loginButton;
+    private javax.swing.JPasswordField passwordField;
+    private javax.swing.JTextField usernameField;
+    // End of variables declaration//GEN-END:variables
 }
