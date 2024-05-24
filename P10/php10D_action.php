@@ -23,7 +23,7 @@ if (isset($_POST['username']) && isset($_POST['password'])) {
 				echo '
 				<script>
 					alert("Password salah")
-					window.location.href = "php10A.php"
+					window.location.href = "php10D.php"
 				</script>
 				';
 			}
@@ -31,7 +31,7 @@ if (isset($_POST['username']) && isset($_POST['password'])) {
 			echo '
 			<script>
 				alert("Username tidak ditemukan")
-				window.location.href = "php10A.php"
+				window.location.href = "php10D.php"
 			</script>
 			';
 		}
