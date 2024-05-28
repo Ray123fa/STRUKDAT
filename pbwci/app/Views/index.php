@@ -20,13 +20,18 @@
 				<img src="<?= base_url('img/logo.png') ?>" alt="Logo STIS" width="75">
 			</div>
 			<h3 class="text-center mb-3">Please sign in</h3>
-			<form action="/home/signInAuth" method="POST" style="width: 300px;">
+			<?php if (session()->getFlashdata('msg')) : ?>
+				<div class="alert alert-danger" role="alert">
+					<?= session()->getFlashdata('msg') ?>
+				</div>
+			<?php endif; ?>
+			<form action="/Home/signinAuth" method="POST" style="width: 300px;">
 				<input type="text" name="username" class="form-control p-2" id="username" placeholder="Username" required>
 				<input type="password" name="password" class="form-control p-2" id="password" placeholder="Password" required>
 				<div class="form-check my-3">
 					<input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
 					<label class="form-check-label" for="flexCheckDefault">
-						Default checkbox
+						Remember me
 					</label>
 				</div>
 				<button class="p-2 btn btn-primary w-100">Sign in</button>
