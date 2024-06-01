@@ -43,10 +43,15 @@ class Home extends BaseController
     public function meeting()
     {
         $session = session();
-        $data = [
-            'username' => $session->get('username')
-        ];
-        return view('meeting', $data);
+        if ($session->get('isSignedIn')) {
+            $data = [
+                'username' => $session->get('username')
+            ];
+
+            return view('meeting', $data);
+        } else {
+            return redirect()->to('/Home');
+        }
     }
 
     public function signout()
